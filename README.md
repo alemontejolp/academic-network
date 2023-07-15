@@ -56,3 +56,8 @@ missing any, some variables can appear more than once.
 * **\<cloudinary-cloud-name>** : Your cloud name of [Cloudinary](https://cloudinary.com/). For image storage.
 * **\<cloudinary-api-key>** : Your API key of [Cloudinary](https://cloudinary.com/). For image storage.
 * **\<cloudinary-api-secret>** : Your API secret of [Cloudinary](https://cloudinary.com/). For image storage.
+
+Available only in development.
+
+* **\<install-dependencies-for-rest-api>** : A flag that indicates if dependencies must be installed on start up for the REST API. Any non-empty string is valid to set this option as true. It is just needed the first time you start the system in development mode.
+* **\<install-dependencies-for-web-app>** : A flag that indicates if dependencies must be installed on start up for the Web app. Any non-empty string is valid to set this option as true. It is just needed the first time you start the system in development mode.

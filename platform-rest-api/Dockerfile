@@ -14,5 +14,4 @@ RUN apk add openssh-keygen
 
 EXPOSE 3000
 
-# CMD [ "./init.sh", "&&", "npm start" ]
-CMD ./init.sh && npm start
+CMD ./start.sh

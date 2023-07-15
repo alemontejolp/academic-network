@@ -10,3 +10,5 @@ then
   printf "${RED_COLOR}Initialization process failed. Refusing to start the application.\n"
   exit 1
 fi
+
+npm start

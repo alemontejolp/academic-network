@@ -22,6 +22,7 @@ services:
       - PLATFORM_WEBAPP_APIKEY=<your-super-secure-api-key>
       - SCHOOL_DOMAIN=<your-school-domain>
       - SCHOOL_MAJORS=<major-list>
+      - INSTALL_DEPENDENCIES=<install-dependencies-for-rest-api>
     links:
       - platform-db
     depends_on:
@@ -36,6 +37,9 @@ services:
       dockerfile: ./Dockerfile.dev
     ports:
       - "<host-web-app-port>:3000"
+    environment:
+      # For docker initialization
+      - INSTALL_DEPENDENCIES=<install-dependencies-for-web-app>
     links:
       - platform-rest-api
     volumes:

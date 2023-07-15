@@ -10,4 +10,4 @@ RUN apk add openssh-keygen
 
 EXPOSE 3000
 
-CMD ./init.sh && npm run dev
+CMD ./start-dev.sh
