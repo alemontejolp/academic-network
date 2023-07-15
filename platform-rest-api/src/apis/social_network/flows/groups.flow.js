@@ -45,8 +45,8 @@ module.exports = {
     generalMidd.verifyAPIKey,
     groupMidd.checkGroupId,
     generalMidd.userAuth,
-    groupMidd.checkUpdateGroupImageData,
     fileUploadMidd,
+    groupMidd.checkUpdateGroupImageData,
     groupCtrl.updateGroupImage
   ],
 
@@ -67,8 +67,8 @@ module.exports = {
     groupMidd.checkGroupId,
     generalMidd.userAuth,
     groupMidd.verifyPermissions,
-    groupMidd.checkNewPostData,
     fileUploadMidd,
+    groupMidd.checkNewPostData,
     groupCtrl.createPost
   ],
 

@@ -20,4 +20,4 @@ then
   exit 1
 fi
 
-npm start
+npm run dev
