@@ -1,0 +1,46 @@
+<div class="container global-flex-centering-container">
+  <div class="custom-container">
+    <div class="get-username">
+      <h1 class="global-main-title">Inicio de sesión</h1>
+      <app-single-field-form-n2options
+        class="custom-form"
+        label="Usuario"
+        placeholder="Escriba su usuario o email"
+        left-btn="REGISTRARSE"
+        right-btn="INICIAR"
+        type="text"
+        required="true"
+        forward-btn="right"
+        (btn-pressed)="catch_user($event); showSignUp($event)"
+        error-msg="Parece que has olvidado poner tu usuario.">
+      </app-single-field-form-n2options>
+    </div>
+
+    <div class="get-password inactive ">
+
+      <app-element-card
+        class="user-card"
+        [defaultIcon] = "profileDefaultIcon"
+        [card] = "user">
+      </app-element-card>
+
+      <!--
+      <mat-icon>account_circle</mat-icon>
+      <h1 class="global-main-title">{{displayName}}</h1>
+      <p class="global-main-title">@{{username}}</p>
+      -->
+      <app-single-field-form-n2options
+        class="custom-form"
+        label="Contraseña"
+        placeholder="Escriba su contraseña"
+        left-btn="CAMBIAR USUARIO"
+        right-btn="INICIAR"
+        type="password"
+        required="true"
+        forward-btn="right"
+        (btn-pressed)="catchPassword($event)"
+        error-msg="Parece que has olvidado poner tu contraseña.">
+      </app-single-field-form-n2options>
+    </div>
+  </div>
+</div>

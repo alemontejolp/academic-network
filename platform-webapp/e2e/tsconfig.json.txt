@@ -1,0 +1,1 @@
+To learn more about "tsconfig.json" this file see: https://angular.io/config/tsconfig.

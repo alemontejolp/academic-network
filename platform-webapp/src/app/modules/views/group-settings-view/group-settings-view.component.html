@@ -1,0 +1,40 @@
+<section class="global-container">
+  <button
+    mat-raised-button
+    (click)="goToGroup()">
+      Ir al groupo
+  </button>
+</section>
+<mat-tab-group mat-align-tabs="center">
+  <mat-tab label="Configuración del grupo">
+    <div class="global-container global-text-center">
+      <p>
+        Edita la información de tu grupo.
+      </p>
+    </div>
+    <div class="global-container global-container-main global-container-bg-color">
+      <app-group-settings
+        applyBtnLabel="Aplicar"
+        [permissions]="permissions"
+        [btnDisabled]="groupSettingsFormDisabled"
+        [groupInformation]="groupInformation"
+        (apply)="applySettings($event)">
+      </app-group-settings>
+    </div>
+  </mat-tab>
+  <mat-tab label="Imagen del grupo">
+    <div class="global-container global-text-center">
+      <p>
+        Cambia la imagen de tu grupo.
+      </p>
+    </div>
+    <div class="global-container global-container-main global-container-bg-color">
+      <app-image-picker
+        applyBtnLabel="Aplicar"
+        [card]="groupCard"
+        [applyBtnDisabled]="groupImageFormDisabled"
+        (apply)="applyImage($event)">
+      </app-image-picker>
+    </div>
+  </mat-tab>
+</mat-tab-group>

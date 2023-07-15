@@ -1,0 +1,64 @@
+# docker-compose.dev.yml
+version: "3.9"
+services:
+  platform-rest-api:
+    build:
+      context: ./platform-rest-api
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - "<host-rest-api-port>:3000"
+    environment:
+      # Required variables
+      - MARIADB_HOST=platform-db
+      - MARIADB_USER=<db-user-name>
+      - MARIADB_PASS=<db-user-passwd>
+      - MARIADB_DATABASE=<db-name>
+      - IANA_TIMEZONE=<time-zone>
+      - MARIADB_PORT=3306 # As the connection happen inside the container, the correct port is one the exposed by the target container.
+      - CLOUDINARY_CLOUD_NAME=<cloudinary-cloud-name>
+      - CLOUDINARY_API_KEY=<cloudinary-api-key>
+      - CLOUDINARY_API_SECRET=<cloudinary-api-secret>
+      # Optionals but recommended for Docker initialization.
+      - PLATFORM_WEBAPP_APIKEY=<your-super-secure-api-key>
+      - SCHOOL_DOMAIN=<your-school-domain>
+      - SCHOOL_MAJORS=<major-list>
+    links:
+      - platform-db
+    depends_on:
+      platform-db:
+        condition: service_healthy
+        restart: true
+    volumes:
+      - ./platform-rest-api:/home/app
+  platform-web-app:
+    build:
+      context: ./platform-webapp
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - "<host-web-app-port>:3000"
+    links:
+      - platform-rest-api
+    volumes:
+      - ./platform-webapp:/home/app
+  platform-db:
+    image: mariadb:11.1-rc-jammy
+    ports:
+      - "3310:3306"
+    environment:
+      - MARIADB_ROOT_PASSWORD=<db-root-passwd>
+      - MARIADB_USER=<db-user-name>
+      - MARIADB_PASSWORD=<db-user-passwd>
+      - MARIADB_DATABASE=<db-name>
+    healthcheck:
+      test: echo "use <db-name>;" | mariadb -u <db-user-name> -p<db-user-passwd>
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    volumes:
+      - platform-data:/var/lib/mysql
+      # mysql -> /var/lib/mysql
+      # postgres -> /var/lib/postgresql/data
+
+volumes:
+  platform-data:

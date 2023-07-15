@@ -1,0 +1,10 @@
+<mat-card [class]="activeClasses" (click) = "clickHandler()">
+  <img *ngIf="!card.icon" mat-card-image class="image" [src]="defaultIcon" alt="Ícono">
+  <img *ngIf="card.icon" mat-card-image class="image" [src]="card.icon" alt="Ícono">
+  <mat-card-content>
+    <div *ngFor="let t of card.text">
+      <h2 *ngIf="t.style == 'h2'" class="global-text-center">{{ t.text }}</h2>
+      <p *ngIf="t.style == 'p'" class="global-text-center">{{ t.text }}</p>
+    </div>
+  </mat-card-content>
+</mat-card>

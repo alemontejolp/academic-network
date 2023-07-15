@@ -1,0 +1,17 @@
+<section class="container">
+  <app-element-card
+    class="group-card"
+    [card]="card"
+    [enableClickEvent]="true"
+    (clickOverCard)="selectImageHandler(imageInput)">
+  </app-element-card>
+  <form [formGroup]="imageFormGroup">
+    <input
+      #imageInput
+      formControlName="imageCtrl"
+      style="display: none;"
+      type="file"
+      accept="image/*"
+      (change)="imageChangeHandler($event)">
+  </form>
+</section>

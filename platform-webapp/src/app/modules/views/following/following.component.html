@@ -1,0 +1,26 @@
+<h1 class="global-main-title">Seguidos</h1>
+
+<div class="form-container">
+  <form (submit) = "submitSearch()">
+    <mat-form-field class="full-width">
+      <mat-label>Nombre de usuario</mat-label>
+      <input
+        matInput
+        maxlength="256"
+        placeholder="Algún nombre..."
+        [(ngModel)]="searchVal"
+        [ngModelOptions]="{standalone: true}">
+      <mat-hint align="end">{{searchVal.length}} / 256</mat-hint>
+    </mat-form-field>
+  </form>
+</div>
+
+<div class="global-card-element-container">
+  <app-element-card-box
+    #elementCardBox
+    [data]="following"
+    [defaultIcon]="defaultIcon"
+    [paginatorData]="paginator"
+    (page)="pageHandler($event)">
+  </app-element-card-box>
+</div>

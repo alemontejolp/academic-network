@@ -1,0 +1,24 @@
+.separator {
+    /*display: block;*/
+    margin-bottom: 50px;
+}
+
+.card {
+    width: inherit;
+    max-width: inherit;
+    min-width: inherit;
+    margin: inherit;
+    margin-bottom: inherit;
+}
+
+.usrname {
+    display: inline;
+}
+
+.like-counter {
+  display: inline;
+}
+
+.clickeable:hover {
+  cursor: pointer;
+}

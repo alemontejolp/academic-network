@@ -1,0 +1,61 @@
+<div class = "global-publication-container custom-container">
+  <!-- Group card -->
+  <app-element-card
+    [defaultIcon] = "defaultIcon"
+    [card] = "groupCard">
+  </app-element-card>
+
+  <!-- Box to create publications -->
+  <mat-card *ngIf="isMember()" class="publication-form-container">
+    <app-text-and-image-form
+      class = "publication-form"
+      textInputLabel = "Comparte algo en el grupo."
+      textInputPlaceholder = "Dí lo que necesites."
+      (newContent) = "newPublicationHandler($event)">
+    </app-text-and-image-form>
+  </mat-card>
+
+  <!-- Publication list -->
+  <app-publication-display
+    class = "global-publication-card"
+    *ngFor = "let p of publications"
+    [publication] = "p"
+    [activeButtons] = "['comment', 'share', 'favorite']"
+    (favorite) = "favoriteEventHandler($event)"
+    (comment) = "commentEventHandler($event)"
+    (share) = "shareEventHandler($event)">
+  </app-publication-display>
+
+  <div *ngIf = "voidTimeline" class="global-text-center publication-form-container">
+    <p>Parece que aún no hay publicaciones que ver.</p>
+  </div>
+  <div *ngIf = "!voidTimeline && noMorePosts" class="global-text-center publication-form-container">
+    <p>Hemos llegado al final de las publicaciones.</p>
+  </div>
+</div>
+
+<section class = "global-menu-container">
+  <button mat-mini-fab
+    [matMenuTriggerFor]="menu"
+    color = "primary">
+      <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item
+      *ngIf = "isUserOwner()"
+      (click)="goToSettings()">
+        <mat-icon>settings</mat-icon>
+        <span>Configuración</span>
+    </button>
+    <button mat-menu-item
+      *ngIf="isMember()"
+      (click) = "openPreferences()">
+        <mat-icon>tune</mat-icon>
+        <span>Preferencias</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>chat</mat-icon>
+      <span>Chat del grupo</span>
+    </button>
+  </mat-menu>
+</section>

@@ -1,0 +1,132 @@
+<div class="container global-flex-centering-container">
+  <div class="custom-wrapper">
+    <h1 class="global-main-title ">Registrate</h1>
+    <mat-card class="custom-container">
+      <form [formGroup]="myForm" (submit) = "onSubmit($event)">
+        <!-- Grupo: Nombre -->
+        <div class="custom-sub-container group-name">
+          <mat-form-field appearance="standard" class="custom-field">
+            <mat-label>Nombre *</mat-label>
+            <input
+              matInput
+              name="firstname"
+              placeholder="Jhon"
+              formControlName="firstname">
+                <mat-icon matSuffix *ngIf="getError('firstname')">error_outline</mat-icon>
+                <mat-icon matSuffix *ngIf="!getError2('firstname')">check_circle_outline</mat-icon>
+                <mat-error *ngIf="getError('firstname')">
+                  Solo se pueden poner letras (1 a 40 caracteres).
+                </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Grupo: Apellidos -->
+        <div class="custom-sub-container group-surnames">
+          <mat-form-field appearance="standard" class="custom-field">
+            <mat-label>Apellidos *</mat-label>
+            <input
+              matInput
+              name="lastname"
+              placeholder="Doe"
+              formControlName="lastname">
+                <mat-icon matSuffix *ngIf="getError('lastname')">error_outline</mat-icon>
+                <mat-icon matSuffix *ngIf="!getError2('lastname')">check_circle_outline</mat-icon>
+                <mat-error *ngIf="getError('lastname')">
+                  Solo se pueden poner letras (1 a 40 caracteres).
+                </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Grupo: Correo Institucional -->
+        <div class="custom-sub-container group-email">
+          <mat-form-field appearance="standard" class="custom-field">
+            <mat-label>Correo institucional *</mat-label>
+            <input
+              matInput
+              name="email"
+              placeholder="jhon.doe@gmail.com"
+              formControlName="email">
+                <mat-icon matSuffix *ngIf="getError('email')">error_outline</mat-icon>
+                <mat-icon matSuffix *ngIf="!getError2('email')">check_circle_outline</mat-icon>
+                <mat-error *ngIf="getError('email')">
+                  Tienes que poner un correo válido.
+                </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Grupo: Contraseña -->
+        <div class="custom-sub-container group-password">
+          <mat-form-field appearance="standard" class="custom-field">
+            <mat-label>Contraseña *</mat-label>
+            <input
+              type="password"
+              matInput
+              name="passwd"
+              formControlName="passwd">
+                <mat-icon matSuffix *ngIf="getError('passwd')">error_outline</mat-icon>
+                <mat-icon matSuffix *ngIf="!getError2('passwd')">check_circle_outline</mat-icon>
+                <mat-error *ngIf="getError('passwd')">
+                  La contraseña tiene que ser de 4 a 12 dígitos.
+                </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Grupo: Contraseña 2 -->
+        <div class="custom-sub-container group-password2">
+          <mat-form-field appearance="standard" class="custom-field">
+            <mat-label>Confirmar contraseña *</mat-label>
+            <input
+              type="password"
+              matInput
+              name="password2"
+              formControlName="password2">
+                <mat-icon matSuffix *ngIf="getError('password2') || getErrorPassword2()">error_outline</mat-icon>
+                <mat-icon matSuffix *ngIf="!getError2('password2') && !getErrorPassword2()">check_circle_outline</mat-icon>
+                <mat-error *ngIf="getError('password2')">
+                  Este campo es requerido.
+                </mat-error>
+          </mat-form-field>
+          <span class="password2-err" *ngIf="getError('password2') || getErrorPassword2()">
+            Las contraseñas no coinciden.
+          </span>
+        </div>
+
+        <!-- Grupo: Programa Educativo -->
+        <div class="custom-sub-container group-career">
+          <mat-form-field appearance="standard" class="custom-field">
+            <mat-label>Programa educativo *</mat-label>
+            <mat-select name="major_id" formControlName="major_id">
+              <mat-option *ngFor="let career of careers" [value]="career.id"> {{ career.name }} </mat-option>
+            </mat-select>
+            <mat-icon matSuffix *ngIf="getError('major_id')">error_outline</mat-icon>
+            <mat-icon matSuffix *ngIf="!getError2('major_id')">check_circle_outline</mat-icon>
+            <mat-error *ngIf="getError('major_id')">
+              Tienes que elegir un programa educativo.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Grupo: Descripción -->
+        <div class="custom-sub-container group-description">
+          <mat-form-field appearance="standard" class="custom-field">
+            <mat-label>Descripción, interes, algo que decir, etc.</mat-label>
+            <input name="description" matInput formControlName="description" #desc>
+            <mat-icon matSuffix *ngIf="getError('description')">error_outline</mat-icon>
+            <mat-icon matSuffix *ngIf="!getError2('description')">check_circle_outline</mat-icon>
+            <mat-hint align="end">{{desc.value.length}} / 500</mat-hint>
+            <mat-error *ngIf="getError('description')">
+              Solo se pueden poner letras (máximo 500 caracteres).
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Grupo: Bótones -->
+        <div class="custom-sub-container global-btn-right">
+          <button type="button" mat-raised-button color="primary"(click)="goBack()">Volver</button>
+          <button type="submit" mat-raised-button color="primary" autofocus="true" (click)="onSubmit($event)" [disabled]="myForm.invalid">Registrarse</button>
+        </div>
+
+      </form>
+    </mat-card>
+  </div>
+</div>

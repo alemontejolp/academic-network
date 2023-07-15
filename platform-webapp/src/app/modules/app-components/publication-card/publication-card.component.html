@@ -1,0 +1,75 @@
+<!-- TODO: Put links to user profile and gorup. -->
+<mat-card class="card">
+  <mat-card-header>
+    <img
+      *ngIf = "profileImgSrc"
+      mat-card-avatar
+      [src]="profileImgSrc"
+      [alt]="altProfileImg">
+    <img
+      *ngIf = "!profileImgSrc"
+      mat-card-avatar
+      [src]="defaultImageProfile"
+      [alt]="altProfileImg">
+    <mat-card-title (click) = "goToProfile(username)" class="clickeable">
+      {{profileName}}
+      <mat-card-subtitle class="usrname">@{{username}}</mat-card-subtitle>
+    </mat-card-title>
+    <mat-card-subtitle
+      *ngIf = "groupName"
+      class="clickeable"
+      (click)="goToGroup(groupId)">
+        @{{groupName}}
+    </mat-card-subtitle>
+    <mat-card-subtitle>{{dateFormat(createdAt)}}</mat-card-subtitle>
+    <span class="separator"></span>
+  </mat-card-header>
+    <img mat-card-image
+      [src]="publicationImgSrc"
+      [alt]="altPublicationImg"
+      *ngIf = "publicationImgSrc && !isSharedContent">
+  <mat-card-content>
+    <p *ngFor = "let p of stringFormat.splitByEOL(text)">{{p}}</p>
+  </mat-card-content>
+
+  <mat-card class="card" *ngIf = "isSharedContent">
+    <mat-card-header>
+      <img mat-card-avatar
+        *ngIf = "subProfileImgSrc"
+        [src]="subProfileImgSrc"
+        [alt]="'Imagen de ' + subProfileName">
+      <img
+        *ngIf = "!subProfileImgSrc"
+        mat-card-avatar
+        [src]="defaultImageProfile"
+        [alt]="altProfileImg">
+      <mat-card-title (click)="goToProfile(subUsername)" class="clickeable">
+        {{subProfileName}}
+        <mat-card-subtitle class="usrname">@{{subUsername}}</mat-card-subtitle>
+      </mat-card-title>
+      <mat-card-subtitle
+        *ngIf = "subGroupName"
+        (click)="goToGroup(subGroupId)"
+        class="clickeable">
+          @{{subGroupName}}
+      </mat-card-subtitle>
+      <mat-card-subtitle>{{dateFormat(subCreatedAt)}}</mat-card-subtitle>
+      <span class="separator"></span>
+    </mat-card-header>
+    <img mat-card-image
+      [src]="subPublicationImgSrc"
+      alt="Imagen no disponible"
+      *ngIf = "subPublicationImgSrc">
+    <mat-card-content>
+      <p *ngFor = "let p of stringFormat.splitByEOL(subText)">{{p}}</p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card-actions class="global-text-right">
+    <p class="like-counter" *ngIf = "isButtonInList('favorite')">{{likeCounter}}</p>
+    <button *ngIf = "liked && isButtonInList('favorite')" mat-icon-button (click) = "favoriteEvent()"><mat-icon>favorite</mat-icon></button>
+    <button *ngIf = "!liked && isButtonInList('favorite')" mat-icon-button (click) = "favoriteEvent()"><mat-icon>favorite_border</mat-icon></button>
+    <button *ngIf = "isButtonInList('comment')" mat-icon-button (click) = "commentEvent()"><mat-icon>insert_comment</mat-icon></button>
+    <button *ngIf = "isButtonInList('share')" mat-icon-button (click) = "shareEvent()"><mat-icon>share</mat-icon></button>
+  </mat-card-actions>
+</mat-card>

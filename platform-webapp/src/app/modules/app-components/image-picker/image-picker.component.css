@@ -1,0 +1,35 @@
+.container {
+  width: 100%;
+}
+
+.group-card {
+  /*width: 50%;*/
+  width: 400px;
+  margin: auto;
+}
+
+.cropper-container {
+  /*width: 60%;*/
+  width: 600px;
+  margin: 15px auto 15px auto;
+}
+
+.top-separation {
+  margin-top: 15px;
+}
+
+@media (max-width: 950px) and (min-width: 501px) {
+  .cropper-container {
+    width: 90%;
+  }
+}
+
+@media (max-width: 500px) {
+  .group-card {
+    width: 100%;
+  }
+
+  .cropper-container {
+    width: 100%;
+  }
+}

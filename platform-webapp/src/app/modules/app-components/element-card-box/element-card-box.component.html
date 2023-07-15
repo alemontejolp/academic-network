@@ -1,0 +1,19 @@
+<div class="global-flex-centering-container">
+  <article *ngFor="let d of data">
+    <app-element-card
+      [card]="d"
+      [defaultIcon]="defaultIcon"
+      class="element-card">
+    </app-element-card>
+  </article>
+</div>
+
+<div>
+  <mat-paginator
+    #paginator
+    [length]="paginatorData.length"
+    [pageSize]="paginatorData.pageSize"
+    [pageSizeOptions]="paginatorData.pageSizeOptions"
+    (page)="pageHandler($event)">
+  </mat-paginator>
+</div>

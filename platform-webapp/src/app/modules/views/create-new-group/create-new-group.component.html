@@ -1,0 +1,39 @@
+<mat-horizontal-stepper [linear]="true" #stepper class="global-container">
+  <mat-step [stepControl]="groupSettingsFormGroup" label="Configura tu nuevo grupo">
+    <app-group-settings
+      [formGroup]="groupSettingsFormGroup"
+      [applyBtnLabel]="createGroupforwardBtnLabel"
+      [btnDisabled] = "createGroupForwardBtnDisabled"
+      [permissions]="permissions"
+      (apply)="applySettingsHandler($event)">
+    </app-group-settings>
+  </mat-step>
+  <mat-step [stepControl]="imageFormGroup" label="Elige la imagen de tu grupo">
+    <app-image-picker
+      [formGroup]="imageFormGroup"
+      [applyBtnDisabled]="applyImageBtnDisabled"
+      (apply)="applyImageHandler($event)">
+    </app-image-picker>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Completado</ng-template>
+    <p
+      *ngIf="!imageUpdateFinished"
+      class="global-text-center">
+        Esperando a terminar la carga de la imagen.
+    </p>
+    <div class="global-text-center" *ngIf="imageUpdatingOk && imageUpdateFinished">
+      <app-element-card
+        class="group-card"
+        [card]="groupCard">
+      </app-element-card>
+      <p>Configuración terminada.</p>
+      <p>Puedes volver a las secciones anteriores para hacer cambios o ir al grupo.</p>
+      <button mat-raised-button color="primary" (click)="goToView('group')">Ir al grupo</button>
+    </div>
+    <div class="global-text-center" *ngIf="!imageUpdatingOk && imageUpdateFinished">
+      <p>Algo salio mal. :c</p>
+      <button mat-raised-button color="primary" (click)="goToView('user-feed')">Ir al inicio</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

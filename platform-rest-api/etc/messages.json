@@ -1,0 +1,11 @@
+{
+  "success_messages": {
+    "c200": "Done"
+  },
+  "error_messages": {
+    "e401": "Unauthenticated. User must authenticate to get the requested response.",
+    "e403": "Forbidden. User does not have access rights to the content.",
+    "e404": "Resource not found.",
+    "e500": "Something gone wrong. Please contact with the maintainers of the server and report the response code."
+  }
+}

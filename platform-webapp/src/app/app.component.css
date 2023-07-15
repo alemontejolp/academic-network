@@ -1,0 +1,52 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.toolbar {
+  position: fixed;
+}
+
+.sidenav {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  right: 0;
+  left: 0;
+}
+
+.sidenav-btn {
+  width: 100%;
+  padding: 1%;
+  text-align: left;
+}
+
+mat-drawer {
+  width: 50%;
+}
+
+mat-icon {
+  margin-left: 2%;
+}
+
+.img-icon {
+  width: 100%;
+}
+
+.icon-toolbar-btn {
+  margin-left: 15px;
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  mat-drawer {
+    width: 35%;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  mat-drawer {
+    width: 25%;
+  }
+}
+

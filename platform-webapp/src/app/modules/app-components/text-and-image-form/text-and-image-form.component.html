@@ -1,0 +1,24 @@
+<mat-form-field appearance="outline" class="form">
+  <mat-label>{{textInputLabel}}</mat-label>
+  <textarea matInput [placeholder] = "textInputPlaceholder"
+    [id] = "textInputId"
+    (keyup)="typingHandlerForTextbox(textInput, imageInput, imagePreview, $event)"
+    (keydown)="setTextareSize(textInput)"
+    #textInput></textarea>
+  <input type = "file"
+    accept="image/*"
+    #imageInput
+    style="display: none;"
+    (change) = "imageInputHandler(imageInput, imagePreview)">
+  <div class="global-text-right">
+    <button mat-icon-button
+      (click) = "imageInput.click()">
+        <mat-icon>image</mat-icon>
+    </button>
+    <button mat-icon-button
+      (click) = "handlerForSendContentBtn(textInput, imageInput, imagePreview)">
+        <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</mat-form-field>
+<img #imagePreview class="image-preview">

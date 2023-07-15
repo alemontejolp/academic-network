@@ -1,0 +1,70 @@
+<mat-tab-group mat-align-tabs="center">
+  <!--Tab for user settings-->
+  <mat-tab label="Datos personales">
+    <div class="global-container global-text-center">
+      <p>
+        Esta es la información que puedes editar. Si requieres modificar
+        algo más, contacta con los administradores del sistema.
+      </p>
+    </div>
+    <form
+      (submit)="submitSettingsHandler($event)"
+      class="global-container global-container-main global-container-bg-color"
+      [formGroup]="userSettingFormGroup">
+        <mat-form-field
+          appearance="standard"
+          class="full-width">
+            <mat-label>Nombre(s)</mat-label>
+            <input
+              matInput
+              formControlName="firstname"
+              placeholder="Usa tu nombre real">
+            <mat-hint>Nombre real</mat-hint>
+        </mat-form-field>
+        <mat-form-field
+          appearance="standard"
+          class="full-width">
+            <mat-label>Apellidos(s)</mat-label>
+            <input
+              matInput
+              formControlName="lastname"
+              placeholder="Usa tus apellidos reales">
+            <mat-hint>Apellidos reales</mat-hint>
+        </mat-form-field>
+        <mat-form-field
+          appearance="standard"
+          class="full-width">
+            <mat-label>Descripción, intereses, lo que quieras</mat-label>
+            <textarea
+              matInput
+              mat-autosize
+              formControlName="description"
+              placeholder="Escribe lo que quieras"></textarea>
+            <mat-hint>Algún mensaje para los que vean tu perfil</mat-hint>
+        </mat-form-field>
+        <div class="global-btn-right">
+          <button
+            mat-raised-button
+            color="primary">
+            Aplicar
+          </button>
+        </div>
+    </form>
+  </mat-tab>
+  <!--Tab for user image-->
+  <mat-tab label="Imagen de perfil">
+    <div class="global-container global-text-center">
+      <p>
+        Cambia tu imagen de perfil.
+      </p>
+    </div>
+    <div class="global-container global-container-main global-container-bg-color">
+      <app-image-picker
+        applyBtnLabel="Aplicar"
+        [card]="userCard"
+        [applyBtnDisabled]="imageFormDisabled"
+        (apply)="applyImage($event)">
+      </app-image-picker>
+    </div>
+  </mat-tab>
+</mat-tab-group>

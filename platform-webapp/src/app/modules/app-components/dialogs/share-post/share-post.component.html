@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>Compartir una publicación</h2>
+
+<div mat-dialog-content>
+  <form class="main-form" [formGroup]="formGroup">
+    <mat-form-field appearance="fill" class="form-control">
+      <mat-label>En dónde compartir</mat-label>
+      <mat-select formControlName="groupId">
+        <mat-option *ngFor="let group of groups" [value]="group.id">
+          {{group.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="form-control" appearance="fill">
+      <mat-label>Agrega un texto</mat-label>
+      <textarea
+        formControlName="content"
+        matInput
+        placeholder="Comparte algo sobre esta publicación"
+        mat-autosize></textarea>
+    </mat-form-field>
+    <app-publication-display
+      class="post-card"
+      [publication]="publication"
+      [activeButtons]="[]">
+    </app-publication-display>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="submitHandler()">Compartir</button>
+</div>

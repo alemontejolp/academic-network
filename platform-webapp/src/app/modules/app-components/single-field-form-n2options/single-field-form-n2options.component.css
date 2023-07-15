@@ -1,0 +1,14 @@
+.custom-container {
+  box-sizing: border-box;
+  padding: 20px;
+  width: inherit;
+  margin: inherit;
+}
+
+.custom-field {
+  width: 100%;
+}
+
+.custom-sub-container {
+  margin-bottom: 10px;
+}

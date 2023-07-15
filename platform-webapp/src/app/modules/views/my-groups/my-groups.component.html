@@ -1,0 +1,27 @@
+<h1 class="global-main-title">Mis grupos</h1>
+<div class="form-container">
+
+  <form (submit)="submitSearch()">
+    <mat-form-field class="full-width">
+      <mat-label>Busca tus grupos</mat-label>
+      <input
+        matInput
+        maxlength="256"
+        placeholder="Tus terminos de búsqueda..."
+        [(ngModel)]="searchVal"
+        [ngModelOptions]="{standalone: true}">
+      <mat-hint align="end">{{searchVal.length}} / 256</mat-hint>
+    </mat-form-field>
+  </form>
+
+</div>
+
+<div class="global-card-element-container">
+  <app-element-card-box
+    #elementCardBox
+    [data]="myGroups"
+    [defaultIcon]="defaultIcon"
+    [paginatorData]="paginator"
+    (page)="pageHandler($event)">
+  </app-element-card-box>
+</div>

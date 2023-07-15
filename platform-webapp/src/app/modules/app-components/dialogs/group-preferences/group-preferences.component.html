@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Preferencias del grupo</h2>
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Preferencias generales
+      </mat-panel-title>
+      <mat-panel-description>
+        Notificaciones, etc.
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <section>
+      <mat-checkbox
+        class="checkbox"
+        color = "primary"
+        [(ngModel)] = "data.listenForNotifications">
+          Recibir notificaciones sobre este grupo.
+      </mat-checkbox>
+    </section>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Zona de peligro
+      </mat-panel-title>
+      <mat-panel-description>
+        Dejar grupo, etc.
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <section class="sec-separation">
+      <button mat-raised-button
+        color = "warn"
+        (click) = "leaveGroup()">
+          Abandonar grupo
+      </button>
+    </section>
+  </mat-expansion-panel>
+</mat-accordion>
+<section mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button (click)="apply()" cdkFocusInitial>Aplicar</button>
+</section>

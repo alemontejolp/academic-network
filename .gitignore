@@ -1,0 +1,3 @@
+docker-compose.*
+!docker-compose.yml.example
+!docker-compose.dev.yml.example

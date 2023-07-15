@@ -1,0 +1,76 @@
+<form
+  [formGroup]="groupSettingsFormGroup"
+  (submit)="submitHandler()">
+  <!-- Group name -->
+  <mat-form-field class="text-input-field">
+    <mat-label>Nombre del grupo</mat-label>
+    <input
+      matInput
+      placeholder="Mi fantástico nuevo grupo"
+      formControlName="nameCtrl"
+      required>
+  </mat-form-field>
+  <!-- Group description -->
+  <mat-form-field class="text-input-field">
+    <mat-label>Descripción del grupo</mat-label>
+    <textarea
+      matInput
+      placeholder="En este grupo haremos cosas increíbles. ;)"
+      formControlName="descriptionCtrl"
+      required></textarea>
+  </mat-form-field>
+  <!-- Group privacy -->
+  <mat-radio-group
+    aria-label="Selecciona una visibilidad"
+    color="primary"
+    formControlName="privacyCtrl">
+      <p><mat-label>Privacidad:</mat-label></p>
+      <mat-radio-button [disabled]="controlsDisabled()" value="public">Público</mat-radio-button>
+      <mat-radio-button [disabled]="controlsDisabled()" value="private">Privado</mat-radio-button>
+  </mat-radio-group>
+  <!-- Group permissions -->
+  <section class="section-separation">
+    <p>Permisos:</p>
+    <ul>
+      <li *ngFor="let p of permissions">
+        <mat-checkbox
+          [disabled]="controlsDisabled()"
+          [(ngModel)]="p.granted"
+          [ngModelOptions]="{standalone: true}"
+          color="primary"
+          value="p.id">
+            {{p.name}}
+        </mat-checkbox>
+      </li>
+    </ul>
+  </section>
+  <!-- Group tags -->
+  <mat-form-field class="text-input-field" >
+    <mat-chip-list #tagList formControlName="tagCtrl">
+      <mat-chip
+        *ngFor="let tag of groupTagList"
+        selectable
+        removable
+        (removed)="removeTag(tag)">
+          {{tag.tag}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input
+        [disabled]="controlsDisabled()"
+        placeholder="Escribe las etiquetas de tu grupo"
+        [matChipInputFor]="tagList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        matChipInputAddOnBlur
+        (matChipInputTokenEnd)="addTag($event)">
+    </mat-chip-list>
+    <mat-hint>Separa las etiquetas por comas (,) o dando enter.</mat-hint>
+  </mat-form-field>
+  <div class="section-separation global-btn-right">
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="btnDisabled">
+        {{applyBtnLabel}}
+    </button>
+  </div>
+</form>

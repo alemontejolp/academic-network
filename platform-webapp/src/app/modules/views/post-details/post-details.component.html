@@ -1,0 +1,16 @@
+<div class="global-publication-container">
+  <app-publication-display
+    class = "global-publication-card"
+    [publication] = "publication"
+    (favorite) = "favoriteEventHandler($event)"
+    (share) = "shareEventHandler($event)"
+    (comment) = "commentEventHandler($event)">
+  </app-publication-display>
+
+  <app-comment-box
+    [comments] = "comments"
+    [focusInput] = "focusInput"
+    (moreComments) = "handlerForMoreComments($event)"
+    (newComment) = "handerForNewComment($event)">
+  </app-comment-box>
+</div>

@@ -1,0 +1,174 @@
+<mat-progress-bar
+  *ngIf="animations.globalProgressBarActive"
+  mode="indeterminate"
+  color="warn">
+</mat-progress-bar>
+<mat-toolbar color="primary" class="toolbar" id="toolbar">
+  <button mat-icon-button aria-label="Menu button" (click)="drawer.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <button mat-button routerLink = "/user-feed">
+    <h1> {{title}} </h1>
+  </button>
+
+  <span class="example-spacer"></span>
+  <button
+    class = "icon-toolbar-btn"
+    *ngIf = "isThereSession()"
+    mat-icon-button
+    [matMenuTriggerFor]="notifications"
+    aria-label="Notification button">
+      <mat-icon>notifications</mat-icon>
+  </button>
+  <button
+    class = "icon-toolbar-btn"
+    *ngIf = "isThereSession()"
+    mat-icon-button
+    [matMenuTriggerFor]="menu"
+    aria-label="User account button">
+      <mat-icon
+        *ngIf = "!isThereUserImage()">
+          account_circle</mat-icon>
+      <img
+        *ngIf = "isThereUserImage()"
+        mat-card-avatar
+        [src] = "userImgSrc"
+        class="img-icon">
+  </button>
+  <button
+    class = "icon-toolbar-btn"
+    *ngIf = "!isThereSession()"
+    routerLink = "/login"
+    mat-icon-button
+    aria-label="Login button">
+      <mat-icon>login</mat-icon>
+  </button>
+
+  <mat-menu #menu="matMenu">
+    <!--Los siguientes botones deben ser editados para enlazar a las
+    vistas correspondientes usando routerLink.-->
+    <button mat-menu-item
+      (click) = "goMyProfile()">
+        <mat-icon>person</mat-icon>
+        <span>Perfil</span>
+    </button>
+    <button mat-menu-item
+      (click)="goUserSettings()">
+        <mat-icon>manage_accounts</mat-icon>
+        <span>Editar perfil</span>
+    </button>
+    <button mat-menu-item
+      routerLink="/group/new">
+        <mat-icon>group_add</mat-icon>
+        <span>Crear grupo</span>
+    </button>
+    <button mat-menu-item
+      (click) = "endSession()">
+        <mat-icon>logout</mat-icon>
+        <span>Cerrar sesión</span>
+    </button>
+  </mat-menu>
+
+  <mat-menu #notifications="matMenu">
+    <!-- El contenido de este card es estátipo para ejemplificar
+    pero debe ser sustituido por una lógica que despliegue
+    las notificaiones recuperadas del backend. -->
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Título de la notificaión</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+          A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+          bred for hunting.
+        </p>
+      </mat-card-content>
+    </mat-card>
+    <!--Fin card de ejemplo.-->
+  </mat-menu>
+</mat-toolbar>
+
+<mat-drawer-container class="sidenav" hasBackdrop="true" id="sidenav">
+  <mat-drawer #drawer mode="over">
+    <button
+      *ngIf = "isThereSession()"
+      mat-button class="sidenav-btn"
+      (click)="drawer.toggle()"
+      routerLink="/user-feed">
+        <mat-icon>home</mat-icon> INICIO
+    </button>
+
+    <button
+      *ngIf = "isThereSession()"
+      mat-button
+      class="sidenav-btn"
+      (click)="drawer.toggle()"
+      routerLink="/group/available">
+        <mat-icon>supervisor_account</mat-icon> GRUPOS
+    </button>
+
+    <button
+      *ngIf = "isThereSession()"
+      mat-button
+      class="sidenav-btn"
+      (click)="drawer.toggle()"
+      routerLink="/group/mine">
+        <mat-icon>supervisor_account</mat-icon> MIS GRUPOS
+    </button>
+
+    <button
+      *ngIf = "isThereSession()"
+      mat-button
+      class="sidenav-btn"
+      (click)="drawer.toggle()"
+      routerLink="/users">
+        <mat-icon>person</mat-icon> USUARIOS
+    </button>
+
+    <button
+      *ngIf = "isThereSession()"
+      mat-button class="sidenav-btn"
+      (click)="drawer.toggle()"
+      routerLink="/followers">
+        <mat-icon>person_outline</mat-icon> SEGUIDORES
+    </button>
+
+    <button
+      *ngIf = "isThereSession()"
+      mat-button class="sidenav-btn"
+      (click)="drawer.toggle()"
+      routerLink="/following">
+        <mat-icon>person_outline</mat-icon> SEGUIDOS
+    </button>
+
+    <button
+      *ngIf = "isThereSession()"
+      mat-button
+      class="sidenav-btn"
+      (click)="drawer.toggle()"
+      routerLink="/post/favorites">
+        <mat-icon>favorite</mat-icon> FAVORITOS
+    </button>
+
+    <button
+      *ngIf = "isThereSession()"
+      mat-button
+      class="sidenav-btn"
+      (click)="drawer.toggle()"
+      routerLink="/">
+        <mat-icon>chat</mat-icon> CHAT
+    </button>
+
+    <button
+      mat-button
+      class="sidenav-btn"
+      (click)="drawer.toggle()"
+      routerLink="/">
+        <mat-icon>info</mat-icon> INFORMACIÓN
+    </button>
+  </mat-drawer>
+  <mat-drawer-content class="global-main-bg-color" id="element-mat-drawer">
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

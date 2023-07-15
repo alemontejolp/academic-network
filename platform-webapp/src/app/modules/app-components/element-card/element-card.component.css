@@ -1,0 +1,20 @@
+.card {
+  /*display: inline-block;*/
+  display: block;
+  /*display: inherit;*/
+  width: inherit;
+  height: inherit;
+  margin: inherit;
+  box-sizing: border-box;
+}
+
+.image {
+  width: 50%;
+  display: block;
+  margin: auto;
+  border-radius: 50%;
+}
+
+.clickeable:hover {
+  cursor: pointer;
+}

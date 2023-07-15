@@ -1,0 +1,15 @@
+{
+  "path_tracking": {
+    "write_to_file": true,
+    "write_to_stdout": true
+  },
+  "session": {
+    "expires_in": "7 days"
+  },
+  "db": {
+    "conn_limit": 10
+  },
+  "moment": {
+    "language": "es"
+  }
+}  

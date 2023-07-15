@@ -1,0 +1,28 @@
+<div class="global-publication-container">
+  <app-element-card
+    class="centered-box"
+    [defaultIcon] = "profileDefaultIcon"
+    [card] = "user">
+  </app-element-card>
+
+  <!-- Box to create publications -->
+  <mat-card class="publication-form-container">
+    <app-text-and-image-form
+      *ngIf = "displayPublicationForm"
+      class = "publication-form"
+      textInputLabel = "Comparte algo con tus seguidores."
+      textInputPlaceholder = "Dí lo que necesites."
+      (newContent) = "newPublicationHandler($event)">
+    </app-text-and-image-form>
+  </mat-card>
+
+  <!-- Publication list -->
+  <app-publication-display
+    class = "global-publication-card"
+    *ngFor = "let p of publications"
+    [publication] = "p"
+    [activeButtons] = "['comment', 'favorite']"
+    (favorite) = "favoriteEventHandler($event)"
+    (comment) = "commentEventHandler($event)">
+  </app-publication-display>
+</div>

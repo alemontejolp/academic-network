@@ -1,0 +1,30 @@
+<app-publication-card
+  [postId] = "publication.id"
+  [profileImgSrc] = "publication.profile_image_src"
+  [profileName] = "publication.firstname + ' ' + publication.lastname"
+  [publicationImgSrc] = "publication.img_src"
+  [text] = "publication.content"
+  [username] = "publication.username"
+  [createdAt] = "publication.created_at"
+  [groupId] = "publication.group_id"
+  [groupName] = "publication.group_name"
+  [liked] = "publication.liked_by_user"
+  [likeCounter] = "publication.like_counter"
+
+  [isSharedContent] = "pubFmt.isSharedContent(publication)"
+  [subPostId]="pubFmt.getReferencedField(publication, 'id')"
+  [subProfileImgSrc] = "pubFmt.getReferencedField(publication, 'profile_image_src')"
+  [subProfileName] = "pubFmt.getReferencedField(publication, 'profile_name')"
+  [subPublicationImgSrc] = "pubFmt.getReferencedField(publication, 'img_src')"
+  [subText] = "pubFmt.getReferencedField(publication, 'content')"
+  [subUsername] = "pubFmt.getReferencedField(publication, 'username')"
+  [subCreatedAt] = "pubFmt.getReferencedField(publication, 'created_at')"
+  [subGroupId] = "pubFmt.getReferencedField(publication, 'group_id')"
+  [subGroupName] = "pubFmt.getReferencedField(publication, 'group_name')"
+
+  [activeButtons] = "activeButtons"
+
+  (favorite) = "favoriteEventHandler($event)"
+  (comment) = "commentEventHandler($event)"
+  (share) = "shareEventHandler($event)">
+</app-publication-card>

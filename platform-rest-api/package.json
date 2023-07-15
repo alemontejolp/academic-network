@@ -1,0 +1,39 @@
+{
+  "name": "academic-network-rest-api",
+  "version": "0.1.0",
+  "description": "Archivos fuente de los servicios web que ofrece el sistema Academy Network.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deltasoftmx/AcademyNetworkServices.git"
+  },
+  "keywords": [
+    "academic",
+    "network"
+  ],
+  "author": "DeltaSoftMX",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deltasoftmx/AcademyNetworkServices/issues"
+  },
+  "homepage": "https://github.com/deltasoftmx/AcademyNetworkServices#readme",
+  "dependencies": {
+    "better-validator": "^2.1.9",
+    "cloudinary": "^1.27.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "jsonwebtoken": "^8.5.1",
+    "mariadb": "^2.5.5",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

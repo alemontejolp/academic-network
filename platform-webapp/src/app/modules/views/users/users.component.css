@@ -1,0 +1,29 @@
+.form-container {
+  width: 60%;
+  margin: 0 auto 40px auto;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-icon {
+  font-size: 100px;
+}
+
+h1 {
+  margin-top: 2%;
+}
+
+
+@media(max-width: 500px) {
+
+  .custom-container {
+    width: 100%;
+  }
+
+  .form-container {
+    width: 75%;
+  }
+
+}

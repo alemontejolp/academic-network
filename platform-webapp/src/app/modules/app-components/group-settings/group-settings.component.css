@@ -1,0 +1,17 @@
+.text-input-field {
+  width: 100%;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+ul {
+  list-style-type: none;
+  margin-top: 4px;
+  padding: 0;
+}
+
+.section-separation {
+  margin: 12px 0;
+}

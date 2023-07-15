@@ -1,0 +1,16 @@
+<mat-card class="custom-container">
+  <form>
+    <div class="custom-sub-container">
+      <mat-form-field appearance="standard" class="custom-field">
+        <mat-label>{{label}}</mat-label>
+        <input matInput [placeholder]="plh" [type]="type" [required]="isreq" (keypress)="onkeyup($event, input.value)" #input>
+      </mat-form-field>
+    </div>
+
+    <div class="custom-sub-container global-btn-right">
+      <button mat-raised-button color="primary" (click)="onclick($event, input.value, 'left')">{{lbtn}}</button>
+      <button mat-raised-button color="primary" (click)="onclick($event, input.value, 'right')" autofocus="true">{{rbtn}}</button>
+    </div>
+  </form>
+</mat-card>
+

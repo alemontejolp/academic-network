@@ -1,0 +1,20 @@
+<div class = "global-publication-container custom-container">
+  <h1 class = "global-main-title">Publicaciones favoritas</h1>
+  <!-- Publication list -->
+  <app-publication-display
+    class = "global-publication-card"
+    *ngFor = "let p of publications"
+    [publication] = "p"
+    [activeButtons] = "['comment', 'share', 'favorite']"
+    (favorite) = "favoriteEventHandler($event)"
+    (comment) = "commentEventHandler($event)"
+    (share) = "shareEventHandler($event)">
+  </app-publication-display>
+
+  <div *ngIf = "voidTimeline" class="global-text-center top-separation">
+    <p>Aún no has marcado alguna publicación como favorita.</p>
+  </div>
+  <div *ngIf = "!voidTimeline && noMorePosts" class="global-text-center top-separation">
+    <p>Hemos llegado al final de las publicaciones.</p>
+  </div>
+</div>

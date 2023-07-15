@@ -1,0 +1,31 @@
+<div class = "global-publication-container custom-container">
+  <!-- Box to create publications -->
+  <mat-card>
+    <app-text-and-image-form
+      class = "publication-form"
+      textInputLabel = "Comparte algo con tus seguidores."
+      textInputPlaceholder = "Dí lo que necesites."
+      (newContent) = "newPublicationHandler($event)">
+    </app-text-and-image-form>
+  </mat-card>
+
+  <!-- Publication list -->
+  <app-publication-display
+    class = "global-publication-card"
+    *ngFor = "let p of publications"
+    [publication] = "p"
+    [activeButtons] = "['comment', 'share', 'favorite']"
+    (favorite) = "favoriteEventHandler($event)"
+    (comment) = "commentEventHandler($event)"
+    (share) = "shareEventHandler($event)">
+  </app-publication-display>
+
+  <div *ngIf = "voidTimeline" class="global-text-center top-separation">
+    <p>Parece que aún no hay publicaciones que ver.</p>
+    <p>Únete a algunos grupos o sigue a algunas personas. :D</p>
+  </div>
+
+  <div *ngIf = "!voidTimeline && emptyPostsResponse" class="global-text-center top-separation">
+    <p>Hemos llegado al final de las publicaciones disponibles para mostrarte.</p>
+  </div>
+</div>
