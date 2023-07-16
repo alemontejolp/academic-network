@@ -247,5 +247,31 @@ module.exports = {
       err.func = err.func || 'getPostsOfAGroup'
       errorHandlingService.handleErrorInRequest(req, res, err)
     }
-  }
+  },
+
+  getPostsOfUser: async function(req, res) {
+    try {
+      let result = await postService.getPostsOfUser(
+        req.params.username,
+        req.api.userId,
+        req.query.offset,
+        req.query.page
+      )
+      let posts = result.posts
+      await preparePosts(posts, req.api.userId)
+
+      res.finish({
+        code: 0,
+        messages: [messages.success_messages.c200],
+        data: {
+          posts: posts,
+          total_records: result.total_records
+        }
+      })
+    } catch (err) {
+      err.file = err.file || __filename
+      err.func = err.func || 'favoritePosts'
+      errorHandlingService.handleErrorInRequest(req, res, err)
+    }
+  },
 }

@@ -123,3 +123,8 @@ export class FavoritePosts {
   favorite_posts: Publication[];
   total_records: number;
 }
+
+export class UserPosts {
+  posts: Publication[];
+  total_records: number;
+}

@@ -6,9 +6,8 @@
   </app-element-card>
 
   <!-- Box to create publications -->
-  <mat-card class="publication-form-container">
+  <mat-card class="publication-form-container" *ngIf = "displayPublicationForm">
     <app-text-and-image-form
-      *ngIf = "displayPublicationForm"
       class = "publication-form"
       textInputLabel = "Comparte algo con tus seguidores."
       textInputPlaceholder = "Dí lo que necesites."
@@ -25,4 +24,12 @@
     (favorite) = "favoriteEventHandler($event)"
     (comment) = "commentEventHandler($event)">
   </app-publication-display>
+
+  <div *ngIf = "voidTimeline" class="global-text-center top-separation">
+    <p>Este usuario aún no ha hecho alguna publicación en su perfil.</p>
+  </div>
+
+  <div *ngIf = "!voidTimeline && emptyPostsResponse" class="global-text-center top-separation">
+    <p>Hemos llegado al final de las publicaciones disponibles para mostrarte.</p>
+  </div>
 </div>

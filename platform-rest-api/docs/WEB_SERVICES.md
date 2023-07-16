@@ -34,6 +34,7 @@
     * [Get favorite posts of user](#get-favorite-posts-of-user)
     * [Get comments of a post](#get-comments-of-a-post)
     * [Get publications of a certain group](#get-publications-of-a-certain-group)
+    * [Get publication of a user]()
 
 ## General information
 
@@ -1482,3 +1483,101 @@ The number of the group to retrieve. Pages starts at `0`, what is also the defau
 
 * 1: Group does not exist.
 * 2: Forbidden. User is not member of the private group.
+
+#### Get publication of a user
+
+##### Description
+
+Retrieves a list of publications that a user has made in their profile.
+The publications are sorted in descending order according to their creation date. 
+Records are served into groups of a certain size called pages. 
+You can select the group size and what group get in a call.
+
+##### Endpoint
+
+`/v1/api/social-network/posts/user/:username`
+
+##### Headers
+
+* `Authorization`
+
+##### Method
+
+GET
+
+##### Params
+
+###### URL Parameters
+
+* `username`: string.
+
+The target user from which the requesting user wants to retrieve publications.
+
+###### Query Parameters
+
+The following two parameters are optional. It has default values.
+
+* `offset`: int.
+
+The size of the group of records to retrieve. Default `10`.
+
+* `page`: int.
+
+The number of the group to retrieve. Pages starts at `0`, what is also the default value.
+
+##### Response data-structure
+
+```json
+{
+  "posts": [
+    {
+      "id": 16,
+      "username": "user one",
+      "firstname": "user one",
+      "lastname": "user one",
+      "profile_img_src": "",
+      "content": "Post of user one. This is a shared post",
+      "img_src": "",
+      "post_type": "user",
+      "like_counter": 2,
+      "created_at": "2021-07-18T05:00:00.000Z",
+      "group_name": null,
+      "group_id": null,
+      "referenced_post": {
+        "id": 5,
+        "username": "user two",
+        "firstname": "user two",
+        "lastname": "user two",
+        "profile_img_src": "",
+        "content": "Post of user two. Marked favorite by the user requesting.",
+        "img_src": "https://res.cloudinary.com/ajulian-cloud/image/upload/v1626619985/programming-meme_jni2ji.jpg",
+        "post_type": "user",
+        "like_counter": 1,
+        "created_at": "2021-07-18T05:00:00.000Z",
+        "group_name": null,
+        "group_id": null
+      }
+    },
+    {
+      "id": 9,
+      "username": "user two",
+      "firstname": "user two",
+      "lastname": "user two",
+      "profile_img_src": "",
+      "content": "Second Post of user two. Marked favorite by the user requesting.",
+      "img_src": null,
+      "post_type": "group",
+      "like_counter": 3,
+      "created_at": "2021-07-12T05:00:00.000Z",
+      "group_name": "Random group",
+      "group_id": 1,
+      "referenced_post": null
+    }
+  ],
+  "total_records": 7
+}
+```
+
+##### Codes
+
+No particular codes.

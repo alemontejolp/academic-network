@@ -90,6 +90,21 @@ module.exports = {
     return next()
   },
 
+  checkUsername: function(req, res, next) {
+    let validator = new Validator()
+    validator(req.params).required().isObject( obj => {
+      obj('username').required().isString()
+    })
+    let errors = parseValidatorOutput(validator.run())
+    if(errors.length != 0) {
+      return res.status(400).finish({
+        code: -1,
+        messages: errors
+      })
+    }
+    return next()
+  },
+
   checkNewPostData: function(req, res, next) {
     req.body.referenced_post_id = parseNumberIfApplicable(req.body.referenced_post_id)
     

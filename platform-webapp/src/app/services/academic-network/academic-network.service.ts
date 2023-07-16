@@ -465,4 +465,21 @@ export class AcademicNetworkService {
       return this.createGroupPost(postData, groupId);
     }
   }
+
+  getPostsOfUser(target_username: string, offset: number = 20, page: number = 0): Observable<ans.Response<ans.UserPosts>> {
+    let headers = new HttpHeaders({
+      'x-api-key': apikey,
+      'Authorization': this.session.getToken()
+    });
+
+    let params = new HttpParams()
+      .set('offset', offset.toString())
+      .set('page', page.toString());
+
+    return this.http.get<ans.Response<ans.UserPosts>>(
+      `${domain}/v1/api/social-network/posts/user/${target_username}`,
+      { headers: headers, params: params })
+        .pipe(catchError(
+          this.handleError<ans.Response<ans.UserPosts>>('Get Posts Of a User')));
+  }
 }

@@ -2,6 +2,7 @@ const generalMidd = require('../../../middlewares/general.middleware')
 const postMidd = require('../../../middlewares/posts.middleware')
 const groupMidd = require('../../../middlewares/groups.middleware')
 const postCtrl = require('../controllers/posts.controller')
+const userMidd = require('../../../middlewares/users.middleware')
 
 module.exports = {
   postsForTimelime: [
@@ -39,5 +40,13 @@ module.exports = {
     groupMidd.checkGroupId,
     postMidd.checkPaginationParams,
     postCtrl.getPostsOfAGroup
-  ]
+  ],
+
+  getPostsOfUser: [
+    generalMidd.verifyAPIKey,
+    generalMidd.userAuth,
+    userMidd.checkUsername,
+    postMidd.checkPaginationParams,
+    postCtrl.getPostsOfUser
+  ],
 }
