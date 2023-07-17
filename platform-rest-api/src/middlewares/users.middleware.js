@@ -1,3 +1,5 @@
+const errorHandlingService = require('../services/error_handling.service')
+const userService = require('../services/user.service')
 const { 
   Validator, 
   parseValidatorOutput, 
@@ -150,6 +152,54 @@ module.exports = {
       obj('search').isString()
       obj('user_relative_type').isString().isIncludedInArray(['all', 'followers', 'followed', undefined])
       obj('asc').isNumber().integer()
+    })
+    let errors = parseValidatorOutput(validator.run())
+    if(errors.length != 0) {
+      return res.status(400).finish({
+        code: -1,
+        messages: errors
+      })
+    }
+    return next()
+  },
+
+  setUserIdFromUsernameParamIfPossible: async function(req, res, next) {
+    try {
+      let user = await userService.getUserInfoFromUsername(req.params.username)
+      if (user) {
+        req.api.targetUser = user
+      }
+      next()
+    } catch(err) {
+      err.file = err.file || __filename
+      err.func = err.func || 'setUserIdFromUsernameParamIfPossible'
+      errorHandlingService.handleErrorInRequest(req, res, err)
+    }
+  },
+
+  setUserIdFromUsernameParam: async function(req, res, next) {
+    try {
+      let user = await userService.getUserInfoFromUsername(req.params.username)
+      if (user) {
+        req.api.targetUser = user
+        return next()
+      }
+      return res.status(400).finish({
+        code: -1,
+        messages: [`The username "${req.params.username}" could not be found`]
+      })
+    } catch(err) {
+      err.file = err.file || __filename
+      err.func = err.func || 'setUserIdFromUsernameParam'
+      errorHandlingService.handleErrorInRequest(req, res, err)
+    }
+  },
+
+  checkSetFollowerData: function(req, res, next) {
+    let validator = new Validator()
+    req.body = parseNumberFromGroupIfApplic(req.body)
+    validator(req.params).isObject(obj => {
+      obj('action').required().isString().isIncludedInArray(['follow', 'unfollow'])
     })
     let errors = parseValidatorOutput(validator.run())
     if(errors.length != 0) {

@@ -21,11 +21,13 @@ export class ProfileViewComponent implements OnInit {
   public publications: Publication[] = [];
   public displayPublicationForm: boolean;
   public target_username: string;
+  public currentUserIsFollower: boolean;
+  public btnFollowUnfollowDisabled: boolean;
 
   public voidTimeline: boolean;
   public emptyPostsResponse: boolean;
-  private currentPage = 0;
-  private pageSize = 5;
+  private currentPage;
+  private pageSize;
   private waitingForPosts = false;
 
   constructor(
@@ -48,20 +50,24 @@ export class ProfileViewComponent implements OnInit {
     this.route.params.subscribe(params => {
       let username = params['username'];
       this.target_username = username;
-      this.academicNetwork
-        .getUserPublicData(username)
-          .subscribe(res => {
-            console.log(res)
-            if(res.code == 0) {
-              this.setUserData(res.data);
-              this.updatePublicationForm(res.data.username);
-            } else if(res.code == 1) {
-              this.popups.error(
-                'El usuario no existe.',
-                'Si llegasta hasta aquí a través de una URL,' +
-                ' revisa si el nombre de usario de la URL es correcto.');
-            }
-          });
+      this.academicNetwork.getUserPublicData(username).subscribe(res => {
+        console.log(res)
+        if(res.code == 0) {
+          this.setUserData(res.data);
+          this.currentUserIsFollower = res.data.requesting_user_is_follower;
+          console.log(this.currentUserIsFollower)
+          this.updatePublicationForm(res.data.username);
+        } else if(res.code == 1) {
+          this.popups.error(
+            'El usuario no existe.',
+            'Si llegasta hasta aquí a través de una URL,' +
+            ' revisa si el nombre de usario de la URL es correcto.');
+        }
+      });
+
+      this.currentPage = 0;
+      this.pageSize = 5;
+      this.publications = [];
 
       this.globalEvents.onEndOfPage('user-profile-posts', '/users/:string', (e) => {
         console.log('END OF PAGE')
@@ -194,6 +200,36 @@ export class ProfileViewComponent implements OnInit {
           }
         }
       })
+  }
+
+  followUser() {
+    this.btnFollowUnfollowDisabled = true;
+    this.academicNetwork.setFollowerFor(this.target_username, 'follow').subscribe(res => {
+      if (res.code == 0) {
+        this.notifications.success('Éxito', `¡Ahora estás siguiendo a @${this.target_username}!`)
+        this.currentUserIsFollower = true
+      } else if(res.code == 3) {
+        this.notifications.info('Info', `Ya estabas sieguiendo a @${this.target_username}.`)
+      } else {
+        this.notifications.error('Error', 'Algo no ha salido bien. Pero no te preocupes, no es tu culpa. Intenta más tarder. :)')
+        console.log(res)
+      }
+      this.btnFollowUnfollowDisabled = false;
+    })
+  }
+
+  unfollowUser() {
+    this.btnFollowUnfollowDisabled = true;
+    this.academicNetwork.setFollowerFor(this.target_username, 'unfollow').subscribe(res => {
+      if (res.code == 0) {
+        this.currentUserIsFollower = false;
+        this.notifications.success('Éxito', `Ya no estás siguiendo a @${this.target_username}`)
+      } else {
+        this.notifications.error('Error', 'Algo no ha salido bien. Pero no te preocupes, no es tu culpa. Intenta más tarder. :)')
+        console.log(res)
+      }
+      this.btnFollowUnfollowDisabled = false;
+    })
   }
 
 }

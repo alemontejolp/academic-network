@@ -28,6 +28,7 @@ module.exports = {
 
   getPublicUserData: [
     generalMidd.verifyAPIKey,
+    generalMidd.userAuthIfTokenSent,
     userMidd.checkGetPublicUserDataParameter,
     userCtrl.getPublicUserData
   ],
@@ -64,5 +65,13 @@ module.exports = {
     fileUploadMidd,
     postMidd.checkCommentInPostData,
     userCtrl.createComment
+  ],
+  setFollower: [
+    generalMidd.verifyAPIKey,
+    generalMidd.userAuth,
+    userMidd.checkUsername,
+    userMidd.setUserIdFromUsernameParam,
+    userMidd.checkSetFollowerData,
+    userCtrl.setFollower
   ]
 }

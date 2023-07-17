@@ -227,6 +227,7 @@ GET
   "description": "Hi I'm John Doe",
   "profile_img_src": "",
   "created_at": "2020-07-20T16:31:31.000Z",
+  "requesting_user_is_follower": true,
   "major": "Data Engineering"
 }
 ```
@@ -518,6 +519,49 @@ Void
 ##### Codes
 
 No particular codes.
+
+#### Set follower
+
+##### Description
+
+Makes the requesting user `follow` or `unfollow` a target user. When the action is `unfollow`,
+the process just tries to remove the follower relationship if exists, no matter if the requesting user
+or the target user exists.
+
+##### Endpoint
+
+`/v1/api/social-network/users/set-follower-for/:username/:action`
+
+##### Headers
+
+Not more than mandatories.
+
+##### Method
+
+GET
+
+##### Params
+
+###### Route
+
+* username: The username of the target user.
+* action: A string [follow|unfollow] representing the action to perform.
+
+##### Response data-structure
+
+No data is returned.
+
+```json
+{}
+```
+
+##### Codes
+
+When the action is `follow`:
+
+1. The target user does not exists.
+2. The requesting user does not exists.
+3. The requesting user is already following the target user.
 
 ### Groups
 

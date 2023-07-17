@@ -9,5 +9,6 @@ router.get('/search', userflows.searchUsers)
 router.get('/types', userflows.getPublicUserTypes)
 router.get('/majors', userflows.getMajorsData)
 router.post('/post/:post_id/make-comment', userflows.createComment)
+router.post('/set-follower-for/:username/:action', userflows.setFollower)
 
 module.exports = router

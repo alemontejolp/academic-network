@@ -134,10 +134,14 @@ export class AcademicNetworkService {
   }
 
   getUserPublicData(username): Observable<ans.Response<ans.UserPublicData>> {
+    let authToken = this.session.getToken();
     let headers = new HttpHeaders({
       'x-api-key': apikey,
       'Content-Type': 'application/json'
     });
+    if (authToken) {
+      headers = headers.set('Authorization', authToken);
+    }
 
     return this.http.get<ans.Response<ans.UserPublicData>>(
       `${domain}/v1/api/social-network/users/data/${username}`,
@@ -481,5 +485,20 @@ export class AcademicNetworkService {
       { headers: headers, params: params })
         .pipe(catchError(
           this.handleError<ans.Response<ans.UserPosts>>('Get Posts Of a User')));
+  }
+
+  setFollowerFor(username: string, action: string): Observable<ans.Response<Object>> {
+    let headers = new HttpHeaders({
+      'x-api-key': apikey,
+      'Content-Type': 'application/json',
+      'Authorization': this.session.getToken()
+    });
+
+    return this.http.post<ans.Response<Object>>(
+      `${domain}/v1/api/social-network/users/set-follower-for/${username}/${action}`,
+      {},
+      { headers: headers })
+        .pipe(catchError(
+          this.handleError<ans.Response<Object>>('setFollowerFor')));
   }
 }

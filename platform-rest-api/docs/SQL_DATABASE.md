@@ -19,6 +19,8 @@ This system use MariaDB v10.4 as database management system.
   * [Add a user to a group](#add-a-user-to-a-group)
   * [Create a post of type group](#create-a-post-of-type-group)
   * [Create a post of type user](#create-a-post-of-type-user)
+  * [Sets a permission for an endpoint](#sets-a-permission-for-an-endpoint)
+  * [Add a follwer to a user](#add-a-follwer-to-a-user)
 
 ## SQL Schema
 ![SQL Schema](diagrams/db.png)
@@ -396,3 +398,30 @@ Sets a permission for an endpoint.
 #### Exit codes
 
 * 1: The endpoint already has the group permission id.
+
+### Add a follwer to a user
+
+#### Type
+
+Write
+
+#### Description
+
+Creates a new entry in the `followers` table specifying that a user
+is a follower of another, unless the relationship already exists
+or one of the users do not exists.
+
+#### SP name
+
+`sp_add_follwer`
+
+#### Parameters
+
+* `target_user_id`: int unsigned
+* `follower_user_id`: int unsigned
+
+#### Exit codes
+
+* 1: Target user does not exists
+* 2: Follower user does not exists
+* 3: The requesting user is already following the target user

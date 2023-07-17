@@ -683,6 +683,7 @@ epc_label:begin
 end $$
 delimiter ;
 
+-- TODO: Document this SP. It was originally created for docker initialization.
 drop procedure if exists sp_add_major;
 delimiter $$
 create procedure sp_add_major(
@@ -698,11 +699,64 @@ sp_add_major_label:begin
     if major_exists is not null then
         select
             1 as exit_code,
-            "The major already exits." as message;
+            "The major already exists." as message;
         leave sp_add_major_label;
     end if;
 
     insert into majors(name) values(major_name);
+    select
+        0 as exit_code,
+        "Done" as message,
+        last_insert_id() as id;
+end $$
+delimiter ;
+
+
+drop procedure if exists sp_add_follwer;
+delimiter $$
+create procedure sp_add_follwer(
+    target_user_id int unsigned,
+    follower_user_id int unsigned
+)
+sp_add_follwer_label:begin
+    declare target_user_exists int unsigned;
+    declare follower_user_exists int unsigned;
+    declare relationship_exists int unsigned;
+
+    select id into target_user_exists
+    from users where id = target_user_id limit 1;
+
+    if target_user_exists is null then
+        select
+            1 as exit_code,
+            "Target user does not exists" as message;
+        leave sp_add_follwer_label;
+    end if;
+
+    select id into follower_user_exists
+    from users where id = follower_user_id limit 1;
+
+    if follower_user_exists is null then
+        select
+            2 as exit_code,
+            "Follower user does not exists" as message;
+        leave sp_add_follwer_label;
+    end if;
+
+    select id into relationship_exists
+    from followers as f 
+        where 
+            f.target_user_id = target_user_id and
+            f.follower_user_id = follower_user_id limit 1;
+    
+    if relationship_exists is not null then
+        select
+            3 as exit_code,
+            "The requesting user is already following the target user" as message;
+        leave sp_add_follwer_label;
+    end if;
+
+    insert into followers(target_user_id, follower_user_id) values(target_user_id, follower_user_id);
     select
         0 as exit_code,
         "Done" as message,

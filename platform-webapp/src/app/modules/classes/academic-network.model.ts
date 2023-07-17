@@ -7,6 +7,7 @@ export class Response<T> {
 }
 
 export class UserPublicData {
+  id: number;
   username: string;
   firstname: string;
   lastname: string;
@@ -14,6 +15,7 @@ export class UserPublicData {
   profile_img_src: string;
   created_at: string;
   type_user: string;
+  requesting_user_is_follower: boolean;
   major: string;
 }
 

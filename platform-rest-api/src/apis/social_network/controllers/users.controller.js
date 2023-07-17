@@ -98,7 +98,7 @@ module.exports = {
 
   getPublicUserData: async function(req, res) {
     try {
-      let resultUserData = await userService.getPublicUserData(req.params.username)
+      let resultUserData = await userService.getPublicUserData(req.params.username, req.api.userId)
 
       if (!resultUserData) {
         res.status(404).finish({
@@ -332,6 +332,28 @@ module.exports = {
       if (comment.image) {
         fs.unlinkSync(comment.image.path)
       }
+    }
+  },
+
+  setFollower: async function(req, res) {
+    try {
+      let result
+      let action = req.params.action
+      let targetUserId = req.api.targetUser.id
+      console.log(targetUserId)
+      if (action == 'follow') {
+        result = await userService.addFollower(targetUserId, req.api.userId)
+      } else if (action == 'unfollow') {
+        result = await userService.removeFollower(targetUserId, req.api.userId)
+      }
+      res.finish({
+        code: result.exit_code,
+        messages: [result.message]
+      })
+    } catch(err) {
+      err.file = err.file || __filename
+      err.func = err.func || 'setFollower'
+      errorHandlingService.handleErrorInRequest(req, res, err)
     }
   }
 }

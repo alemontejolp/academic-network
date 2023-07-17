@@ -115,7 +115,7 @@ module.exports = {
    * Return the user public information according of the user type.
    * @param {string} username Username or email.
    */
-  getPublicUserData: async function (username) {
+  getPublicUserData: async function (username, requesting_user = -1) {
     try {
       let query = `
         SELECT 
@@ -127,7 +127,15 @@ module.exports = {
           user_types.name AS 'type_user',
           users.description,
           users.profile_img_src,
-          Date(users.created_at) AS 'created_at'
+          Date(users.created_at) AS 'created_at',
+          CASE
+            WHEN ? = -1 THEN false
+            WHEN (
+              SELECT id FROM followers
+              WHERE target_user_id=users.id AND follower_user_id = ?
+            ) IS NOT NULL THEN true
+            ELSE false
+          END AS requesting_user_is_follower
         FROM
           users
             INNER JOIN
@@ -135,12 +143,14 @@ module.exports = {
         WHERE
           username = ? or email = ?
         LIMIT 1;`
-      let resultUser = await mariadb.query(query, [username, username])
+      let resultUser = await mariadb.query(query, [requesting_user, requesting_user, username, username])
       let userData = resultUser[0]
       
       if (!userData) {
         return null;
       }
+
+      userData.requesting_user_is_follower = !!userData.requesting_user_is_follower
 
       // Determine if the user is a student, if so add his/her major and delete his/her email.
       query = `
@@ -161,7 +171,7 @@ module.exports = {
         userData.email = undefined
       }
 
-      userData.id = undefined
+      // userData.id = undefined
       return userData
     } catch (err) {
       err.file = __filename
@@ -362,6 +372,48 @@ module.exports = {
     } catch(err) {
       err.file = __filename
       err.func = 'getMajorsData'
+      throw err
+    }
+  },
+
+  getUserInfoFromUsername: async function(username) {
+    let query = 'select * from users where username = ? limit 1'
+    try {
+      let result = await mariadb.query(query, [username])
+      if (result.length != 0) {
+        return result[0]
+      }
+      return null
+    } catch(err) {
+      err.file = __filename
+      err.func = 'addFollower'
+      throw err
+    }
+  },
+
+  addFollower: async function(targetUserId, followerUserId) {
+    let query = `call sp_add_follwer(?, ?)`
+    try {
+      let result = await mariadb.query(query, [targetUserId, followerUserId])
+      return result[0][0]
+    } catch(err) {
+      err.file = __filename
+      err.func = 'addFollower'
+      throw err
+    }
+  },
+
+  removeFollower: async function(targetUserId, followerUserId) {
+    let query = 'delete from followers where target_user_id = ? and follower_user_id = ? limit 1'
+    try {
+      await mariadb.query(query, [targetUserId, followerUserId])
+      return {
+        exit_code: 0,
+        message: 'Done'
+      }
+    } catch(err) {
+      err.file = __filename
+      err.func = 'removeFollower'
       throw err
     }
   }

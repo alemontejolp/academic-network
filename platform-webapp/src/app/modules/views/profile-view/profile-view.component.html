@@ -5,6 +5,26 @@
     [card] = "user">
   </app-element-card>
 
+  <!-- Actions -->
+  <mat-card class="actions-container" *ngIf = "!displayPublicationForm">
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="!currentUserIsFollower"
+      (click)="followUser()"
+      [disabled]="btnFollowUnfollowDisabled">
+        Seguir
+    </button>
+    <button
+      mat-button
+      color="warn"
+      *ngIf="currentUserIsFollower"
+      (click)="unfollowUser()"
+      [disabled]="btnFollowUnfollowDisabled">
+        Dejar de seguir
+    </button>
+  </mat-card>
+
   <!-- Box to create publications -->
   <mat-card class="publication-form-container" *ngIf = "displayPublicationForm">
     <app-text-and-image-form
