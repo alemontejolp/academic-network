@@ -699,7 +699,7 @@ sp_add_major_label:begin
     if major_exists is not null then
         select
             1 as exit_code,
-            "The major already exists." as message;
+            "The major already exists" as message;
         leave sp_add_major_label;
     end if;
 

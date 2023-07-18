@@ -21,6 +21,7 @@ This system use MariaDB v10.4 as database management system.
   * [Create a post of type user](#create-a-post-of-type-user)
   * [Sets a permission for an endpoint](#sets-a-permission-for-an-endpoint)
   * [Add a follwer to a user](#add-a-follwer-to-a-user)
+  * [Creates a new major](#creates-a-new-major)
 
 ## SQL Schema
 ![SQL Schema](diagrams/db.png)
@@ -425,3 +426,25 @@ or one of the users do not exists.
 * 1: Target user does not exists
 * 2: Follower user does not exists
 * 3: The requesting user is already following the target user
+
+### Creates a new major
+
+#### Type
+
+Write
+
+#### Description
+
+Creates a new major if does not exist.
+
+#### SP name
+
+`sp_add_major`
+
+#### Parameters
+
+* `major_name`: varchar(100)
+
+#### Exit codes
+
+* 1: The major already exists
