@@ -707,5 +707,31 @@ module.exports = {
       err.func = err.func || 'getPostDataIfAvailable'
       throw err
     }
+  },
+
+  markPostAsLiked: async function(postId, userId) {
+    let query = `call sp_mark_post_as_favorite(?, ?)`
+    try {
+      let result = await mariadb.query(query, [postId, userId])
+      result = result[0][0]
+      return result
+    } catch(err) {
+      err.file = err.file || __filename
+      err.func = err.func || 'markPostAsLiked'
+      throw err
+    }
+  },
+
+  unmarkPostAsLiked: async function(postId, userId) {
+    let query = `call sp_unmark_post_as_favorite(?, ?)`
+    try {
+      let result = await mariadb.query(query, [postId, userId])
+      result = result[0][0]
+      return result
+    } catch(err) {
+      err.file = err.file || __filename
+      err.func = err.func || 'unmarkPostAsLiked'
+      throw err
+    }
   }
 }

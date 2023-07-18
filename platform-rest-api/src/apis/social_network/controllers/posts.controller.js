@@ -289,4 +289,31 @@ module.exports = {
       errorHandlingService.handleErrorInRequest(req, res, err)
     }
   },
+
+  setLikeStatus: async function(req, res) {
+    try {
+      let userId = req.api.userId
+      let postId = req.params.post_id
+      let action = req.params.action
+      let result
+      if (action == 'add') {
+        result = await postService.markPostAsLiked(postId, userId)
+      } else if (action == 'remove') {
+        result = await postService.unmarkPostAsLiked(postId, userId)
+        switch(result.exit_code) {
+          case 1:
+            result.exit_code = 2
+            break
+        }
+      }
+      return res.finish({
+        code: result.exit_code,
+        messages: [result.message]
+      })
+    } catch (err) {
+      err.file = err.file || __filename
+      err.func = err.func || 'setLikeStatus'
+      errorHandlingService.handleErrorInRequest(req, res, err)
+    }
+  }
 }

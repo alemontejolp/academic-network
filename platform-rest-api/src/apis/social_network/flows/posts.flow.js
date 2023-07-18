@@ -49,4 +49,13 @@ module.exports = {
     postMidd.checkPaginationParams,
     postCtrl.getPostsOfUser
   ],
+
+  setLikeStatus: [
+    generalMidd.verifyAPIKey,
+    generalMidd.userAuth,
+    postMidd.checkPostId,
+    postMidd.checkSetLikeStatusData,
+    postMidd.checkIfUserCanAccessPost,
+    postCtrl.setLikeStatus
+  ],
 }

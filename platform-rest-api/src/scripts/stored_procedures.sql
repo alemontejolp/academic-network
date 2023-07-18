@@ -763,3 +763,82 @@ sp_add_follwer_label:begin
         last_insert_id() as id;
 end $$
 delimiter ;
+
+drop procedure if exists sp_mark_post_as_favorite;
+delimiter $$
+create procedure sp_mark_post_as_favorite(
+    post_id int unsigned,
+    user_id int unsigned
+)
+sp_mark_post_as_favorite_label:begin
+    declare favorite_post_id int unsigned;
+    
+    select id into favorite_post_id
+    from favorite_posts as fp 
+    where
+        fp.user_id = user_id and
+        fp.post_id = post_id
+    limit 1;
+
+    if favorite_post_id is not null then
+        select
+            1 as exit_code,
+            "User already like the post" as message;
+        leave sp_mark_post_as_favorite_label;
+    end if;
+
+    insert into favorite_posts(user_id, post_id)
+    values (user_id, post_id);
+
+    update
+        posts
+    set 
+        like_counter = like_counter + 1 
+    where id = post_id limit 1;
+
+    select
+        0 as exit_code,
+        "Done" as message;
+end $$
+delimiter ;
+
+drop procedure if exists sp_unmark_post_as_favorite;
+delimiter $$
+create procedure sp_unmark_post_as_favorite(
+    post_id int unsigned,
+    user_id int unsigned
+)
+sp_unmark_post_as_favorite_label:begin
+    declare favorite_post_id int unsigned;
+    
+    select id into favorite_post_id
+    from favorite_posts as fp 
+    where
+        fp.user_id = user_id and
+        fp.post_id = post_id
+    limit 1;
+
+    if favorite_post_id is null then
+        select
+            1 as exit_code,
+            "Not previously marked as favorited" as message;
+        leave sp_unmark_post_as_favorite_label;
+    end if;
+
+    delete from favorite_posts
+    where 
+        favorite_posts.user_id = user_id and
+        favorite_posts.post_id = post_id
+    limit 1;
+
+    update
+        posts
+    set 
+        like_counter = like_counter - 1 
+    where id = post_id limit 1;
+
+    select
+        0 as exit_code,
+        "Done" as message;
+end $$
+delimiter ;

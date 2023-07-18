@@ -37,6 +37,7 @@
     * [Get comments of a post](#get-comments-of-a-post)
     * [Get publications of a certain group](#get-publications-of-a-certain-group)
     * [Get publication of a user](#get-publication-of-a-user)
+    * [Mark or unmark a post as liked](#mark-or-unmark-a-post-as-liked)
 
 ## General information
 
@@ -79,6 +80,7 @@ or in a special case, an unknown error.
 * -3: User authentication (token) not valid.
 * -4: Application not allowed to use the service.
 * -5: An unknown error. Check log/crash_reports.log and API log files to see what happened.
+* -6: Post unavailable.
 
 #### Fatal error codes
 
@@ -1662,3 +1664,51 @@ The number of the group to retrieve. Pages starts at `0`, what is also the defau
 ##### Codes
 
 No particular codes.
+
+#### Mark or unmark a post as liked
+
+##### Description
+
+Verifies if the user can access the post. If so, adds or removes the post to the user's liked post
+list, and increments or decrements the likes counter of the target post, as requested.
+
+##### Endpoint
+
+`/v1/api/social-network/posts/set-like/:post_id/:action`
+
+##### Headers
+
+* `Authorization`
+
+##### Method
+
+PUT
+
+##### Params
+
+###### URL Parameters
+
+* `post_id`: int.
+
+The target post.
+
+* `action`: string.
+
+The action to perform. The valid options are: `add`.
+
+###### Query Parameters
+
+Void
+
+##### Response data-structure
+
+Void
+
+```json
+{ }
+```
+
+##### Codes
+
+1. User already like the post
+2. Not previously marked as favorited

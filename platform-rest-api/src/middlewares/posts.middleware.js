@@ -1,3 +1,4 @@
+const postService = require('../services/post.service')
 const { 
   Validator, 
   parseValidatorOutput, 
@@ -43,6 +44,19 @@ module.exports = {
     next()
   },
 
+  checkIfUserCanAccessPost: async function(req, res, next) {
+    let postId = req.params.post_id
+    let userId = req.api.userId
+    let post = await postService.getPostDataIfAvailable(postId, false, userId)
+    if (!post) {
+      return res.status(404).finish({
+        code: -6,
+        messages: ['Post unavailable']
+      })
+    }
+    next()
+  },
+
   checkCommentInPostData: function(req, res, next) {
     let validator = new Validator()
     validator(req.body.content).isString().display('content')
@@ -71,6 +85,21 @@ module.exports = {
       })
     }
     
+    next()
+  },
+
+  checkSetLikeStatusData: function(req, res, next) {
+    let validator = new Validator()
+    validator(req.params).required().isObject( obj => {
+      obj('action').required().isString().isIncludedInArray(['add', 'remove'])
+    })
+    let errors = parseValidatorOutput(validator.run())
+    if(errors.length != 0) {
+      return res.status(400).finish({
+        code: -1,
+        messages: errors
+      })
+    }
     next()
   }
 }
