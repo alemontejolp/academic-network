@@ -101,7 +101,7 @@ module.exports = {
           posts.user_id != ?
       )
       ) results
-      order by created_at desc
+      order by id desc
       limit ?, ?;
     `
     // Prepare query to counts how much records there are.
