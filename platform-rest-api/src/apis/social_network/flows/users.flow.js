@@ -73,5 +73,13 @@ module.exports = {
     userMidd.setUserIdFromUsernameParam,
     userMidd.checkSetFollowerData,
     userCtrl.setFollower
-  ]
+  ],
+
+  updateProfileImage: [
+    generalMidd.verifyAPIKey,
+    generalMidd.userAuth,
+    fileUploadMidd,
+    generalMidd.checkImage,
+    userCtrl.updateProfileImage
+  ],
 }

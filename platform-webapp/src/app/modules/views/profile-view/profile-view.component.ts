@@ -66,7 +66,7 @@ export class ProfileViewComponent implements OnInit {
       });
 
       this.currentPage = 0;
-      this.pageSize = 5;
+      this.pageSize = 20;
       this.publications = [];
 
       this.globalEvents.onEndOfPage('user-profile-posts', '/users/:string', (e) => {

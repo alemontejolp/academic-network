@@ -17,6 +17,7 @@ create table if not exists users (
     email varchar(100) unique not null,
     passwd varchar(300) not null,
     profile_img_src varchar(700),
+    cloudinary_id varchar(100),
     description varchar(700),
     user_type_id int unsigned not null,
     active tinyint not null default 0,

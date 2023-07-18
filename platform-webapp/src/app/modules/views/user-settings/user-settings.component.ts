@@ -3,6 +3,9 @@ import { ElementCard } from '../../classes/student.model';
 import { SessionService } from 'src/app/services/session/session.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AcademicNetworkService } from 'src/app/services/academic-network/academic-network.service'; 
+import { AnimationsService } from 'src/app/services/animations/animations.service';
+import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-user-settings',
@@ -18,7 +21,10 @@ export class UserSettingsComponent implements OnInit {
   constructor(
     private session: SessionService,
     private _formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private academicNetwork: AcademicNetworkService,
+    private animations: AnimationsService,
+    private notifications: NotificationsService
   ) { }
 
   ngOnInit(): void {
@@ -51,6 +57,15 @@ export class UserSettingsComponent implements OnInit {
 
   applyImage(event) {
     console.log(event)
+    this.animations.globalProgressBarActive = true;
+    this.academicNetwork.updateProfileImage(event.image).subscribe(res => {
+      this.animations.globalProgressBarActive = false;
+      if(res.code == 0) {
+        this.notifications.success('Éxito', '¡Tu imagen de perfil fue actualizada!')
+      } else {
+        this.notifications.error('Algo no ha salido bien', res.messages.join(' | '))
+      }
+    })
   }
 
   submitSettingsHandler(event) {

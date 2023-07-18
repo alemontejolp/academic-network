@@ -5,6 +5,12 @@ const cryptService = require('../services/crypt.service')
 const authService = require('../services/auth.service')
 const messages = require('../../etc/messages.json')
 const errorHandlingService = require('../services/error_handling.service')
+const { 
+  Validator, 
+  parseValidatorOutput, 
+  parseNumberFromGroupIfApplic,
+  parseNumberIfApplicable
+} = require('../services/validator.service')
 
 module.exports = {
   //Set an event emitter to response.api.events and
@@ -162,5 +168,27 @@ module.exports = {
 
   response200: async function(req, res, next) {
     res.status(200).end()
+  },
+
+  checkImage: function(req, res, next) {
+    let validator = new Validator()
+
+    // FileUploader will use the 'image' named field. If a file is sent in this field, FileUploader
+    // will "put the image" in req.files.image as an object.
+    // But if no file is sent, req.files.image will be undefined and req.files will be undefined as well.
+    if (!req.files) {
+      req.files = {}
+    }
+    validator(req.files.image).required().isObject().display('image')
+    
+    let errors = parseValidatorOutput(validator.run())
+    if (errors.length) {
+      return res.status(400).finish({
+        code: -1,
+        messages: errors
+      })
+    }
+
+    next()
   }
 }

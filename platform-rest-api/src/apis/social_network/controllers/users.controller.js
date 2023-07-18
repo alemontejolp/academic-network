@@ -355,5 +355,57 @@ module.exports = {
       err.func = err.func || 'setFollower'
       errorHandlingService.handleErrorInRequest(req, res, err)
     }
+  },
+
+  updateProfileImage: async function(req, res) {
+    try {
+      const image = {
+        path: req.files.image.tempFilePath
+      }
+      let result = await userService.updateProfileImage(req.api.userId, image)
+      // The image stored in local files is deleted.
+      fs.unlinkSync(image.path)
+
+      let httpStatusCode = undefined
+      let message = undefined
+
+      switch (result.exit_code) {
+        case 0:
+          httpStatusCode = 200
+          message = 'Done'
+          break;
+        case 1:
+          httpStatusCode = 404
+          message = 'The user does not exist'
+          break;
+        // case 2:
+        //   httpStatusCode = 403
+        //   message = 'Permission denied. You are not the group owner'
+        //   break;
+      }
+
+      return res.status(httpStatusCode).finish({
+        code: result.exit_code,
+        messages: [message],
+        data: {
+          image_src: result.image_src
+        }
+      })
+    } catch (err) {
+      err.file = err.file || __filename
+      err.func = err.func || 'updateProfileImage'
+      // err.http_code = error code of Cloudinary.
+      err.code = err.code || err.http_code
+
+      // If exist some Cloudinary env var not configured.
+      if (err.http_code === 401) {
+        req.api.logger.error(err)
+        res.status(500).finish({
+          code: 1001,
+          messages: [messages.error_messages.e500]
+        })
+      }
+      errorHandlingService.handleImageUploadError(req, res, err)
+    }
   }
 }

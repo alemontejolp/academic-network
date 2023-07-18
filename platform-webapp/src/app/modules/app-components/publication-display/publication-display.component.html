@@ -1,6 +1,6 @@
 <app-publication-card
   [postId] = "publication.id"
-  [profileImgSrc] = "publication.profile_image_src"
+  [profileImgSrc] = "publication.profile_img_src"
   [profileName] = "publication.firstname + ' ' + publication.lastname"
   [publicationImgSrc] = "publication.img_src"
   [text] = "publication.content"
@@ -13,7 +13,7 @@
 
   [isSharedContent] = "pubFmt.isSharedContent(publication)"
   [subPostId]="pubFmt.getReferencedField(publication, 'id')"
-  [subProfileImgSrc] = "pubFmt.getReferencedField(publication, 'profile_image_src')"
+  [subProfileImgSrc] = "pubFmt.getReferencedField(publication, 'profile_img_src')"
   [subProfileName] = "pubFmt.getReferencedField(publication, 'profile_name')"
   [subPublicationImgSrc] = "pubFmt.getReferencedField(publication, 'img_src')"
   [subText] = "pubFmt.getReferencedField(publication, 'content')"

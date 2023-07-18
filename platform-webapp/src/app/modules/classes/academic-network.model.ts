@@ -81,6 +81,10 @@ export class GroupImage {
   image_src: string;
 }
 
+export class ProfileImage {
+  image_src: string;
+}
+
 export class PermissionsForGroups {
   group_permissions: AvailableGroupPermission[];
 }

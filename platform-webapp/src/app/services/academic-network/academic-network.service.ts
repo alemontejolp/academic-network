@@ -501,4 +501,21 @@ export class AcademicNetworkService {
         .pipe(catchError(
           this.handleError<ans.Response<Object>>('setFollowerFor')));
   }
+
+  updateProfileImage(image): Observable<ans.Response<ans.GroupImage>> {
+    let headers = new HttpHeaders({
+      'x-api-key': apikey,
+      'Authorization': this.session.getToken()
+    });
+
+    let groupData = new FormData();
+    groupData.append('image', image);
+
+    return this.http.put<ans.Response<ans.ProfileImage>>(
+      `${domain}/v1/api/social-network/users/update-profile-image`,
+      groupData,
+      { headers: headers })
+        .pipe(catchError(
+          this.handleError<ans.Response<ans.GroupImage>>('Update Group Image')));
+  }
 }

@@ -416,5 +416,75 @@ module.exports = {
       err.func = 'removeFollower'
       throw err
     }
+  },
+
+  /**
+   * Update the profie image of a user.
+   * @param {int} userId 
+   * @param {Object} image An object with:
+   *  - path: Path of image in the local files.
+   * @returns {Object}
+   *  * exit_code: int
+   *  * image_src: string. Only if exit_code = 0.
+   */
+  updateProfileImage: async function(userId, image) {
+    let cloudinary_id = undefined
+
+    try {
+      let query = `
+        select
+          cloudinary_id
+        from users
+        where id = ?
+        limit 1;
+      `
+      let resultQuery = await mariadb.query(query, [userId])
+      resultQuery = resultQuery[0]
+      
+      // Verify if the user exist.
+      if (!resultQuery) {
+        return {
+          exit_code: 1 // User does not exists.
+        }
+      }
+
+      // If the user already has a profile image, delete it from cloudinary.
+      if (resultQuery.cloudinary_id) {
+        cloudinary.uploader.destroy(resultQuery.cloudinary_id).catch( err => {
+          err.file = __filename
+          err.func = 'updateProfileImage'
+          err.code = err.http_code
+          err.method = 'cloudinary.uploader.destroy'
+          err.process = `Removing image from Cloudinary`
+          logService.crashReport(err)
+        })
+      }
+
+      // Uploading the new image to Cloudinary.
+      let resultUploadImage = await cloudinary.uploader.upload(image.path)
+      cloudinary_id = resultUploadImage.public_id
+      let image_src = resultUploadImage.secure_url
+
+      // If all before is successfully complete so the group image is updated in the DB.
+      query = `
+        update users
+        set
+          profile_img_src = ?,
+          cloudinary_id = ?
+        where id = ?
+        limit 1;
+      `
+      await mariadb.query(query, [image_src, cloudinary_id, userId])
+      
+      return {
+        exit_code: 0,
+        image_src
+      }
+    } catch (err) {
+      err.file = __filename
+      err.func = 'updateProfileImage'
+      err.cloudinary_id = cloudinary_id
+      throw err
+    }
   }
 }

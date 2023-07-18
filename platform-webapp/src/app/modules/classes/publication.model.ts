@@ -4,7 +4,7 @@ export class Comment {
   firstname: string;
   lastname: string;
   username: string;
-  profile_image_src: string;
+  profile_img_src: string;
   content: string;
   image_src: string;
   created_at: string;
@@ -16,7 +16,7 @@ export class Publication {
   username: string = '';
   firstname: string = '';
   lastname: string = '';
-  profile_image_src: string;
+  profile_img_src: string;
   content: string = '';
   img_src: string;
   post_type: string;
