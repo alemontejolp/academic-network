@@ -17,6 +17,8 @@
     * [Search users](#search-users)
     * [Get public user types](#get-public-user-types)
     * [Get majors data](#get-majors-data)
+    * [Set follower](#set-follower)
+    * [Update profile image](#update-profile-image)
   * [Groups](#groups)
     * [Get information of a group](#get-information-of-a-group)
     * [Search groups](#search-groups)
@@ -34,7 +36,7 @@
     * [Get favorite posts of user](#get-favorite-posts-of-user)
     * [Get comments of a post](#get-comments-of-a-post)
     * [Get publications of a certain group](#get-publications-of-a-certain-group)
-    * [Get publication of a user]()
+    * [Get publication of a user](#get-publication-of-a-user)
 
 ## General information
 
@@ -562,6 +564,41 @@ When the action is `follow`:
 1. The target user does not exists.
 2. The requesting user does not exists.
 3. The requesting user is already following the target user.
+
+#### Update profile image
+
+##### Description
+
+Update the profile image of the requesting user.
+
+##### Endpoint
+
+`/v1/api/social-network/users/update-profile-image`
+
+##### Headers
+
+* `Content-Type`: multipart/form-data
+* `Authorization`
+
+##### Method
+
+PUT
+
+##### Params
+
+* `image`: blob. The new image for the group.
+
+##### Response data-structure
+
+```json
+{
+  "image_src": "https://res.cloudinary.com/user-cloud/image/upload/v123123123/adfadfa2sf3hr4sth4w.jpg"
+}
+```
+
+##### Codes
+
+1. The user does not exist.
 
 ### Groups
 
