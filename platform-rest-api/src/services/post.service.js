@@ -651,4 +651,61 @@ module.exports = {
       throw err
     }
   },
+
+  getPostDataIfAvailable: async function(postId, withReferencedPostId, userId) {
+    // const userId = req.api.userId
+    // const postId = req.params.post_id
+    const notAvailablePost = null
+
+    try {
+      const groupPost = await this.postBelongsToGroup(postId)
+
+      // If the post belongs to a group
+      if (groupPost.group_private) {
+        // User not authenticated
+        if (userId === undefined) {
+          return notAvailablePost
+        }
+        // User authenticated
+        const userIsMember = await this.userBelongsToGroup(userId, groupPost.group_id)
+
+        if (userIsMember) {
+          const post = await this.getPostData(postId, withReferencedPostId, userId)
+          // if (post.referenced_post_id != null) {
+          //   post.referenced_post = await postService.getPostData(post.referenced_post_id, false, userId)
+          //   post.referenced_post.liked_by_user = !!post.referenced_post.liked_by_user
+          // } else {
+          //   post.referenced_post = null
+          // }
+          // delete post.referenced_post_id
+          post.liked_by_user = !!post.liked_by_user
+          return post
+        } else {
+          return notAvailablePost
+        }
+      } 
+
+      // If the post belongs to a user.
+      const post = await this.getPostData(postId, withReferencedPostId, userId)
+      if (!post) {
+        return notAvailablePost
+      }
+
+      // if (post.referenced_post_id != null) {
+      //   post.referenced_post = await postService.getPostData(post.referenced_post_id, false, userId)
+      //   post.referenced_post.liked_by_user = !!post.referenced_post.liked_by_user
+      // } else {
+      //   post.referenced_post = null
+      // }
+
+      // delete post.referenced_post_id
+      post.liked_by_user = !!post.liked_by_user
+      return post
+      
+    } catch (err) {
+      err.file = err.file || __filename
+      err.func = err.func || 'getPostDataIfAvailable'
+      throw err
+    }
+  }
 }

@@ -22,11 +22,16 @@ async function preparePosts(posts, userId) {
   for (let i = 0; i < lengthPosts; i++) {
     let post = posts[i]
     if (post.referenced_post_id != null) {
-      post.referenced_post = await postService.getPostData(
+      post.referenced_post = await postService.getPostDataIfAvailable(
         post.referenced_post_id, 
         false, 
         userId
       )
+      // If post unavailable
+      if (post.referenced_post == null) {
+        continue
+      }
+      // If posts is available
       post.referenced_post.liked_by_user = !!post.referenced_post.liked_by_user
     } else {
       post.referenced_post = null
@@ -81,15 +86,20 @@ module.exports = {
         const userIsMember = await postService.userBelongsToGroup(userId, groupPost.group_id)
 
         if (userIsMember) {
-          const post = await postService.getPostData(postId, true, userId)
-          if (post.referenced_post_id != null) {
-            post.referenced_post = await postService.getPostData(post.referenced_post_id, false, userId)
-            post.referenced_post.liked_by_user = !!post.referenced_post.liked_by_user
-          } else {
-            post.referenced_post = null
-          }
-          delete post.referenced_post_id
-          post.liked_by_user = !!post.liked_by_user
+          let post = await postService.getPostData(postId, true, userId)
+          // if (post.referenced_post_id != null) {
+          //   post.referenced_post = await postService.getPostDataIfAvailable(post.referenced_post_id, false, userId)
+          //   if(post.referenced_post) {
+          //     post.referenced_post.liked_by_user = !!post.referenced_post.liked_by_user
+          //   }
+          // } else {
+          //   post.referenced_post = null
+          // }
+          // delete post.referenced_post_id
+          // post.liked_by_user = !!post.liked_by_user
+          post = [post]
+          await preparePosts(post, userId)
+          post = post[0]
           return res.finish({
             code: 0,
             messages: [messages.success_messages.c200],
@@ -103,21 +113,26 @@ module.exports = {
         }
       } 
 
-      const post = await postService.getPostData(postId, true, userId)
+      let post = await postService.getPostData(postId, true, userId)
       if (!post) {
         return res.status(404).finish({
           code: 3,
           messages: [messages.error_messages.e404]
         })
       }
-      if (post.referenced_post_id != null) {
-        post.referenced_post = await postService.getPostData(post.referenced_post_id, false, userId)
-        post.referenced_post.liked_by_user = !!post.referenced_post.liked_by_user
-      } else {
-        post.referenced_post = null
-      }
-      delete post.referenced_post_id
-      post.liked_by_user = !!post.liked_by_user
+      // if (post.referenced_post_id != null) {
+      //   post.referenced_post = await postService.getPostDataIfAvailable(post.referenced_post_id, false, userId)
+      //   if (post.referenced_post){
+      //     post.referenced_post.liked_by_user = !!post.referenced_post.liked_by_user
+      //   }
+      // } else {
+      //   post.referenced_post = null
+      // }
+      // delete post.referenced_post_id
+      // post.liked_by_user = !!post.liked_by_user
+      post = [post]
+      await preparePosts(post, userId)
+      post = post[0]
       return res.finish({
         code: 0,
         messages: [messages.success_messages.c200],
@@ -270,7 +285,7 @@ module.exports = {
       })
     } catch (err) {
       err.file = err.file || __filename
-      err.func = err.func || 'favoritePosts'
+      err.func = err.func || 'getPostsOfUser'
       errorHandlingService.handleErrorInRequest(req, res, err)
     }
   },
