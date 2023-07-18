@@ -12,7 +12,8 @@ else
   echo "Skipping installation of dependencies."
 fi
 
-node ./src/scripts/init.js
+# node ./src/scripts/init.js
+npm run init
 
 if [ $? -ne 0 ]
 then
