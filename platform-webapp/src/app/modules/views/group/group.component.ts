@@ -79,6 +79,7 @@ export class GroupComponent implements OnInit {
 
   favoriteEventHandler(event) {
     console.log(event)
+    this.utilities.setFavoriteStatus(event).subscribe();
   }
 
   commentEventHandler(event) {

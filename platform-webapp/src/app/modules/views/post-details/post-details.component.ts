@@ -5,6 +5,7 @@ import { AcademicNetworkService } from 'src/app/services/academic-network/academ
 import { PopupsService } from 'src/app/services/popups/popups.service';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 import { SessionService } from 'src/app/services/session/session.service';
+import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
 
 @Component({
   selector: 'app-post-details',
@@ -26,7 +27,8 @@ export class PostDetailsComponent implements OnInit {
     private popups: PopupsService,
     private notifications: NotificationsService,
     private session: SessionService,
-    private router: Router
+    private router: Router,
+    private utilities: UtilitiesService
   ) { }
 
   ngOnInit(): void {
@@ -54,7 +56,7 @@ export class PostDetailsComponent implements OnInit {
       firstname: 'Cheems',
       lastname: 'Balltze',
       username: 'cheems',
-      profile_image_src: 'https://holatelcel.com/wp-content/uploads/2020/09/cheems-memes-9.jpg',
+      profile_img_src: 'https://holatelcel.com/wp-content/uploads/2020/09/cheems-memes-9.jpg',
       content: event.text,
       image_src: '',
       created_at: '2021/06/20'
@@ -68,10 +70,15 @@ export class PostDetailsComponent implements OnInit {
 
   favoriteEventHandler(event) {
     console.log(event)
+    this.utilities.setFavoriteStatus(event).subscribe();
   }
 
   shareEventHandler(event) {
     console.log(event)
+    this.utilities.startProcessToSharePost(event)
+      .subscribe((newPost: Publication) => {
+        console.log(newPost)
+      });
   }
 
   commentEventHandler(event) {

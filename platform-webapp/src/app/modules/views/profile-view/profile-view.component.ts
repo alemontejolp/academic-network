@@ -8,6 +8,7 @@ import { SessionService } from 'src/app/services/session/session.service';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 import { AnimationsService } from 'src/app/services/animations/animations.service';
 import { GlobalEventsService } from 'src/app/services/global-events/global-events.service';
+import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
 
 @Component({
   selector: 'app-profile-view',
@@ -39,6 +40,7 @@ export class ProfileViewComponent implements OnInit {
     private notifications: NotificationsService,
     private animations: AnimationsService,
     private globalEvents: GlobalEventsService,
+    private utilities: UtilitiesService
   ) { }
 
   ngOnInit(): void {
@@ -115,11 +117,22 @@ export class ProfileViewComponent implements OnInit {
 
   favoriteEventHandler(event) {
     console.log(event)
+    this.utilities.setFavoriteStatus(event).subscribe();
   }
 
   commentEventHandler(event) {
     console.log(event)
     this.router.navigateByUrl(`/post/${event.publicationId}`)
+  }
+
+  shareEventHandler(event) {
+    console.log(event)
+    this.utilities.startProcessToSharePost(event)
+      .subscribe((newPost: Publication) => {
+        if(!newPost.group_id) {
+          this.publications.unshift(newPost);
+        }
+      });
   }
 
   updatePublicationForm(username) {

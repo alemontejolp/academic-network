@@ -3,7 +3,7 @@
   <div *ngFor = "let c of comments">
     <mat-card-header>
       <img mat-card-avatar
-        [src]="c.profile_image_src || profileDefaultIcon"
+        [src]="c.profile_img_src || profileDefaultIcon"
         [alt]="c.firstname + ' ' + c.lastname" >
       <mat-card-title
         (click) = "goToProfile(c.username)"

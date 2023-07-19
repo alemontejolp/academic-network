@@ -2,6 +2,7 @@
   <app-publication-display
     class = "global-publication-card"
     [publication] = "publication"
+    [activeButtons] = "['favorite', 'share']"
     (favorite) = "favoriteEventHandler($event)"
     (share) = "shareEventHandler($event)"
     (comment) = "commentEventHandler($event)">

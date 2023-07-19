@@ -40,9 +40,10 @@
     class = "global-publication-card"
     *ngFor = "let p of publications"
     [publication] = "p"
-    [activeButtons] = "['comment', 'favorite']"
+    [activeButtons] = "['comment', 'favorite', 'share']"
     (favorite) = "favoriteEventHandler($event)"
-    (comment) = "commentEventHandler($event)">
+    (comment) = "commentEventHandler($event)"
+    (share) = "shareEventHandler($event)">
   </app-publication-display>
 
   <div *ngIf = "voidTimeline" class="global-text-center top-separation">

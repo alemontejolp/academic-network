@@ -518,4 +518,20 @@ export class AcademicNetworkService {
         .pipe(catchError(
           this.handleError<ans.Response<ans.GroupImage>>('Update Group Image')));
   }
+
+  setFavoriteStatus(postId: number, action: string): Observable<ans.Response<Object>> {
+    let headers = new HttpHeaders({
+      'x-api-key': apikey,
+      'Authorization': this.session.getToken()
+    });
+
+    let formData = {}
+
+    return this.http.put<ans.Response<Object>>(
+      `${domain}/v1/api/social-network/posts/set-like/${postId}/${action}`,
+      formData,
+      { headers: headers })
+        .pipe(catchError(
+          this.handleError<ans.Response<Object>>('Set like')));
+  }
 }

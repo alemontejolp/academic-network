@@ -9,6 +9,7 @@ import { SharePostComponent } from 'src/app/modules/app-components/dialogs/share
 //Clases
 import { Publication } from 'src/app/modules/classes/publication.model';
 import { SharePostDialogResult, SharePostDialog } from 'src/app/modules/classes/dialogs.model';
+import { Response } from 'src/app/modules/classes/academic-network.model';
 
 //Services
 import { AcademicNetworkService } from '../academic-network/academic-network.service';
@@ -104,5 +105,36 @@ export class UtilitiesService {
         }
       });
     });
+  }
+
+  setFavoriteStatus(favoriteInfo) {
+    return new Observable<Response<Object>>((observer: Observer<Response<Object>>) => {
+      let publicationId = favoriteInfo.publicationId
+      let favoriteStatus = favoriteInfo.favoriteStatus
+      let action = ''
+      let successMessage = ''
+      if (favoriteStatus == 1) {
+        action = 'add'
+        successMessage = 'Publicación añadida a favoritos'
+      } else if (favoriteStatus == 0) {
+        action = 'remove'
+        successMessage = 'Publicación removida de favoritos'
+      }
+      this.academicNetwork.setFavoriteStatus(publicationId, action).subscribe(res => {
+        switch(res.code) {
+          case 0:
+            this.notifications.success('Favoritos', successMessage)
+            break
+          case 1:
+            this.notifications.info('Favoritos', 'La publicación ya estaba en favoritos.')
+            break
+          case 2:
+            this.notifications.info('Favoritos', 'La publicación no había sido agregada a favoritos previamente.')
+          default:
+            this.notifications.error('Favoritos', res.messages.join(' | '))
+        }
+        observer.next(res)
+      })
+    })
   }
 }

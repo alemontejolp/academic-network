@@ -46,6 +46,17 @@ export class FavoritePostsComponent implements OnInit {
 
   favoriteEventHandler(event) {
     console.log(event)
+    this.utilities.setFavoriteStatus(event).subscribe(res => {
+      if (res.code == 0) {
+        let i = this.publications.findIndex(publication => {
+          return publication.id == event.publicationId
+        })
+        // The action was "remove from favorite"
+        if (event.favoriteStatus == 0) {
+          this.publications.splice(i, 1)
+        }
+      }
+    })
   }
 
   commentEventHandler(event) {
