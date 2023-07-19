@@ -292,9 +292,6 @@ module.exports = {
     try {
       const { membershipInfo } = await groupService.getMembershipInfo(req.api.userId, req.params.group_id)
       if (!membershipInfo.is_member) {
-        if (comment.image) {
-          fs.unlinkSync(comment.image.path)
-        }
         return res.status(403).finish({
           code: 4,
           messages: ['Forbidden. User cannot comment because does not belong to the group.']
@@ -317,7 +314,7 @@ module.exports = {
           firstname: userData.firstname,
           lastname: userData.lastname,
           username: userData.username,
-          profile_image_src: userData.profile_img_src,
+          profile_img_src: userData.profile_img_src,
           content: commentData.content,
           image_src: commentData.image_src,
           created_at: commentData.created_at
@@ -336,6 +333,10 @@ module.exports = {
         })
       }
       errorHandlingService.handleImageUploadError(req, res, err)
+    } finally {
+      if (comment.image) {
+        fs.unlinkSync(comment.image.path)
+      }
     }
   }
 }

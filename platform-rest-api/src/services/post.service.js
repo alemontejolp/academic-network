@@ -552,9 +552,10 @@ module.exports = {
         err.func = 'createComment'
         err.cloudinary_id = cloudinaryId
         throw err
-      } finally {
-        fs.unlinkSync(comment.image.path)
       }
+      // finally {
+      //   fs.unlinkSync(comment.image.path)
+      // }
     }
 
     const args = [

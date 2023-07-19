@@ -50,17 +50,46 @@ export class PostDetailsComponent implements OnInit {
   }
 
   handerForNewComment(event) {
-    this.comments.push({
-      user_id: 111,
-      post_id: 22,
-      firstname: 'Cheems',
-      lastname: 'Balltze',
-      username: 'cheems',
-      profile_img_src: 'https://holatelcel.com/wp-content/uploads/2020/09/cheems-memes-9.jpg',
-      content: event.text,
-      image_src: '',
-      created_at: '2021/06/20'
-    })
+    if (!event.text && !event.image) {
+      this.notifications.info('Comentario', 'Es necesario incluir un texto, una imagen o ambos.');
+      return;
+    }
+    let comment = event.text;
+    let image = event.image
+    if (!this.publication.group_id) {
+      // User publication.
+      this.academicNetwork.createCommentInUserPost(this.publication.id, comment, image).subscribe(res => {
+        switch(res.code) {
+          case 0:
+            this.notifications.success('Comentario', 'Comentario añadido con éxito.');
+            this.comments.push(res.data)
+            break;
+          case 2:
+            this.notifications.info('Comentario', 'La publicación ya no existe. No se puede comentar.');
+            break;
+          default:
+            this.notifications.error('Comentario', res.messages.join(' | '));
+        }
+      })
+    } else {
+      // Group publication.
+      this.academicNetwork.createCommentInGroupPost(this.publication.id, comment, image).subscribe(res => {
+        switch(res.code) {
+          case 0:
+            this.notifications.success('Comentario', 'Comentario añadido con éxito.');
+            this.comments.push(res.data)
+            break;
+          case 2:
+            this.notifications.info('Comentario', 'El grupo no permite hacer comentarios en las publicaciones.');
+            break;
+          case 4:
+            this.notifications.info('Comentario', 'La publicación pertenece a un grupo al que no perteneces. No se puede crear el comentario.');
+            break;
+          default:
+            this.notifications.error('Comentario', res.messages.join(' | '));
+        }
+      })
+    }
   }
 
   handlerForMoreComments(event) {

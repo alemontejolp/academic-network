@@ -1,5 +1,6 @@
 export class Comment {
   post_id: number;
+  comment_id: number;
   user_id: number;
   firstname: string;
   lastname: string;

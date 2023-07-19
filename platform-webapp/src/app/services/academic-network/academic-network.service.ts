@@ -6,7 +6,7 @@ import { catchError, retry } from 'rxjs/operators';
 import { apikey, domain} from '../../../environments/environment';
 import * as ans from '../../modules/classes/academic-network.model';
 import { SessionService } from '../session/session.service';
-import { Publication } from 'src/app/modules/classes/publication.model';
+import { Publication, Comment } from 'src/app/modules/classes/publication.model';
 import { NotificationsService } from '../notifications/notifications.service';
 
 @Injectable({
@@ -533,5 +533,45 @@ export class AcademicNetworkService {
       { headers: headers })
         .pipe(catchError(
           this.handleError<ans.Response<Object>>('Set like')));
+  }
+
+  createCommentInUserPost(postId, comment, image = null): Observable<ans.Response<Comment>> {
+    let headers = new HttpHeaders({
+      'x-api-key': apikey,
+      'Authorization': this.session.getToken()
+    });
+
+    let formData = new FormData();
+    if (image) {
+      formData.append('image', image);
+    }
+    formData.append('content', comment)
+
+    return this.http.post<ans.Response<Comment>>(
+      `${domain}/v1/api/social-network/users/post/${postId}/make-comment`,
+      formData,
+      { headers: headers })
+        .pipe(catchError(
+          this.handleError<ans.Response<Comment>>('Create a comment in a user post')));
+  }
+
+  createCommentInGroupPost(postId, comment, image = null): Observable<ans.Response<Comment>> {
+    let headers = new HttpHeaders({
+      'x-api-key': apikey,
+      'Authorization': this.session.getToken()
+    });
+
+    let formData = new FormData();
+    if (image) {
+      formData.append('image', image);
+    }
+    formData.append('content', comment)
+
+    return this.http.post<ans.Response<Comment>>(
+      `${domain}/v1/api/social-network/groups/post/${postId}/make-comment`,
+      formData,
+      { headers: headers })
+        .pipe(catchError(
+          this.handleError<ans.Response<Comment>>('Create a comment in a user post')));
   }
 }

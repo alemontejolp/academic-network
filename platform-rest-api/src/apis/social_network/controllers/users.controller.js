@@ -308,7 +308,7 @@ module.exports = {
           firstname: userData.firstname,
           lastname: userData.lastname,
           username: userData.username,
-          profile_image_src: userData.profile_img_src,
+          profile_img_src: userData.profile_img_src,
           content: commentData.content,
           image_src: commentData.image_src,
           created_at: commentData.created_at

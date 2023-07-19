@@ -349,7 +349,7 @@ POST
   "firstname": "johndoe",
   "lastname": "John",
   "username": "Doe",
-  "profile_image_src": "",
+  "profile_img_src": "",
   "content": "Comment of John in post with id 3",
   "image_src": "https://res.cloudinary.com/someone-cloud/image/upload/v1629060714/zlslbdbzu3fjyiknjm38.jpg",
   "created_at": "2021-08-15"
@@ -1051,7 +1051,7 @@ POST
   "firstname": "johndoe",
   "lastname": "John",
   "username": "Doe",
-  "profile_image_src": "",
+  "profile_img_src": "",
   "content": "Comment of John in post with id 13",
   "image_src": "https://res.cloudinary.com/someone-cloud/image/upload/v1629063555/iphacdyujxixgljbq9bg.jpg",
   "created_at": "2021-08-15"
