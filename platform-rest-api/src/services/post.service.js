@@ -623,10 +623,23 @@ module.exports = {
       inner join users
         on posts.user_id = users.id
       where
-        users.username = ?
+        users.username = ? and
+        posts.post_type = "user"
       order by posts.created_at desc, posts.id desc
       limit ?, ?;
     `
+    // posts.id not in (
+    //   select
+    //     gp.post_id
+    //   from users as u
+    //   inner join group_memberships as gm
+    //     on u.id = gm.user_id
+    //   inner join group_posts as gp
+    //     on gm.group_id = gp.group_id
+    //   where
+    //     u.username = ?
+    // )
+
     // Prepare query to counts how much records there are.
     let countQuery = query.split('\n')
     // Remove selected fields and select the amount of records.
