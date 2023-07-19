@@ -12,14 +12,14 @@
   </button>
 
   <span class="example-spacer"></span>
-  <button
+  <!-- <button
     class = "icon-toolbar-btn"
     *ngIf = "isThereSession()"
     mat-icon-button
     [matMenuTriggerFor]="notifications"
     aria-label="Notification button">
       <mat-icon>notifications</mat-icon>
-  </button>
+  </button> -->
   <button
     class = "icon-toolbar-btn"
     *ngIf = "isThereSession()"
@@ -151,22 +151,22 @@
         <mat-icon>favorite</mat-icon> FAVORITOS
     </button>
 
-    <button
+    <!-- <button
       *ngIf = "isThereSession()"
       mat-button
       class="sidenav-btn"
       (click)="drawer.toggle()"
       routerLink="/">
         <mat-icon>chat</mat-icon> CHAT
-    </button>
+    </button> -->
 
-    <button
+    <!-- <button
       mat-button
       class="sidenav-btn"
       (click)="drawer.toggle()"
       routerLink="/">
         <mat-icon>info</mat-icon> INFORMACIÓN
-    </button>
+    </button> -->
   </mat-drawer>
   <mat-drawer-content class="global-main-bg-color" id="element-mat-drawer">
     <router-outlet></router-outlet>
