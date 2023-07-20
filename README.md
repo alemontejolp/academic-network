@@ -64,9 +64,9 @@ Available only in development.
 
 ### Demo
 
-Here is a **docker compose** file ready for you to try the application quickly.
+Here is a **docker compose** file almost ready for you to try the application quickly.
 Copy and paste it in a `docker-compose.yml` file and start the system with
-`docker compose up`.
+`docker compose up`. Just fill the three variables related to [Cloudinary](https://cloudinary.com/).
 
 To sign up, use email with domain of `gmail.com`.
 
@@ -90,9 +90,9 @@ services:
       - MARIADB_DATABASE=academic_network
       - IANA_TIMEZONE=America/Cancun
       - MARIADB_PORT=3306 # As the connection happen inside the container, the correct port is one the exposed by the target container.
-      - CLOUDINARY_CLOUD_NAME=alecito-test-env
-      - CLOUDINARY_API_KEY=468823211892523
-      - CLOUDINARY_API_SECRET=qCeq1eCTzBIeKST4tUIP3z76g0Q
+      - CLOUDINARY_CLOUD_NAME=<cloudinary-cloud-name>
+      - CLOUDINARY_API_KEY=<cloudinary-api-key>
+      - CLOUDINARY_API_SECRET=<cloudinary-api-secret>
       # Optionals but recommended for Docker initialization.
       - PLATFORM_WEBAPP_APIKEY=87d1a60af4c1a9a5142bee72a87f1edd1ee9638866a87f333ca9677390c0c16a
       - SCHOOL_DOMAIN=gmail.com
