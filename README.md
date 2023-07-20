@@ -6,6 +6,9 @@ This project was originally designed to deploy each component in a different mac
 but to make easier the deployment process, it was rearranged to work in a single machine
 through Docker and Docker Compose.
 
+* [Original (and outdated) design doc](https://docs.google.com/document/d/1HEQ94raNbcOKu_boa7QGCDqP4ok-89Y4DT3ThY042Cg/edit#heading=h.2u2542lwwe5w)
+* [Mockups](https://www.figma.com/file/pnNYBrCwt38LCDWTcc43gt/Academy-Network-Web-App?node-id=0%3A1)
+
 ## Authors
 
 * Axel Alexis Montejo Lopez
