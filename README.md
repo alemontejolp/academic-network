@@ -61,3 +61,101 @@ Available only in development.
 
 * **\<install-dependencies-for-rest-api>** : A flag that indicates if dependencies must be installed on start up for the REST API. Any non-empty string is valid to set this option as true. It is just needed the first time you start the system in development mode.
 * **\<install-dependencies-for-web-app>** : A flag that indicates if dependencies must be installed on start up for the Web app. Any non-empty string is valid to set this option as true. It is just needed the first time you start the system in development mode.
+
+### Demo
+
+Here is a **docker compose** file ready for you to try the application quickly.
+Copy and paste it in a `docker-compose.yml` file and start the system with
+`docker compose up`.
+
+To sign up, use email with domain of `gmail.com`.
+
+Dont use this docker compose file for production since the sensitive data is publicy exposed.
+
+``` yml
+# docker-compose.yml
+version: "3.9"
+services:
+  platform-rest-api:
+    build:
+      context: ./platform-rest-api
+      dockerfile: ./Dockerfile
+    ports:
+      - "3001:3000"
+    environment:
+      # Required variables
+      - MARIADB_HOST=platform-db
+      - MARIADB_USER=app_backend
+      - MARIADB_PASS=qwerty
+      - MARIADB_DATABASE=academic_network
+      - IANA_TIMEZONE=America/Cancun
+      - MARIADB_PORT=3306 # As the connection happen inside the container, the correct port is one the exposed by the target container.
+      - CLOUDINARY_CLOUD_NAME=alecito-test-env
+      - CLOUDINARY_API_KEY=468823211892523
+      - CLOUDINARY_API_SECRET=qCeq1eCTzBIeKST4tUIP3z76g0Q
+      # Optionals but recommended for Docker initialization.
+      - PLATFORM_WEBAPP_APIKEY=87d1a60af4c1a9a5142bee72a87f1edd1ee9638866a87f333ca9677390c0c16a
+      - SCHOOL_DOMAIN=gmail.com
+      - SCHOOL_MAJORS=Ingeniería en Datos,Ingeniería Ambiental,Ingeniería Industrial
+    links:
+      - platform-db
+    depends_on:
+      platform-db:
+        condition: service_healthy
+        restart: true
+  platform-web-app:
+    build:
+      context: ./platform-webapp
+      dockerfile: ./Dockerfile
+      args:
+        - PLATFORM_WEBAPP_APIKEY=87d1a60af4c1a9a5142bee72a87f1edd1ee9638866a87f333ca9677390c0c16a
+        - REST_API_DOMAIN=http://localhost:3001 # As the connections happen outside the container, the correct port is the host's port not the one of the container. 
+    ports:
+      - "3000:3000"
+    links:
+      - platform-rest-api
+  platform-db:
+    image: mariadb:11.1-rc-jammy
+    ports:
+      - "3310:3306"
+    environment:
+      - MARIADB_ROOT_PASSWORD=wizard
+      - MARIADB_USER=app_backend
+      - MARIADB_PASSWORD=qwerty
+      - MARIADB_DATABASE=academic_network
+    healthcheck:
+      test: echo "use academic_network;" | mariadb -u app_backend -pqwerty
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    volumes:
+      - platform-data:/var/lib/mysql
+
+volumes:
+  platform-data:
+```
+
+## Images
+
+Here are some images of the application.
+
+![demo-image](docs/images/1-timeline-2.png)
+
+![demo-image](docs/images/2-posting.png)
+
+![demo-image](docs/images/3-profile-view.png)
+
+![demo-image](docs/images/4-comments.png)
+
+![demo-image](docs/images/5-group-creation.png)
+
+![demo-image](docs/images/6-group-image.png)
+
+![demo-image](docs/images/7-group-view.png)
+
+![demo-image](docs/images/8-sharing.png)
+
+![demo-image](docs/images/9-shared-post.png)
+
+![demo-image](docs/images/10-users.png)
