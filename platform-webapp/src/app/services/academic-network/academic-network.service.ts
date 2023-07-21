@@ -574,4 +574,18 @@ export class AcademicNetworkService {
         .pipe(catchError(
           this.handleError<ans.Response<Comment>>('Create a comment in a user post')));
   }
+
+  addCurrentUserToGroup(groupId): Observable<ans.Response<Object>> {
+    let headers = new HttpHeaders({
+      'x-api-key': apikey,
+      'Authorization': this.session.getToken()
+    });
+
+    return this.http.post<ans.Response<Object>>(
+      `${domain}/v1/api/social-network/groups/group/${groupId}/add-user`,
+      {},
+      { headers: headers })
+        .pipe(catchError(
+          this.handleError<ans.Response<Object>>('Add current user to a group')));
+  }
 }

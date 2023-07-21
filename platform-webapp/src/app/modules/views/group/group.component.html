@@ -53,9 +53,15 @@
         <mat-icon>tune</mat-icon>
         <span>Preferencias</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item
+      *ngIf="!isMember()"
+      (click) = "joinToGroup()">
+        <mat-icon>person_add</mat-icon>
+        <span>Unirse</span>
+    </button>
+    <!-- <button mat-menu-item>
       <mat-icon>chat</mat-icon>
       <span>Chat del grupo</span>
-    </button>
+    </button> -->
   </mat-menu>
 </section>

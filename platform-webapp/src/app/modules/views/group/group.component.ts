@@ -59,7 +59,7 @@ export class GroupComponent implements OnInit {
       let groupId = params['id'];
       this.groupId = parseInt(groupId);
       this.setGroupInformation(groupId);
-      this.setMembershipInfo(groupId)
+      this.setMembershipInfo(groupId);
       this.getMorePosts();
       this.globalEvents.onEndOfPage('group-posts', '/group/:number', (event) => {
         console.log('Current page:', this.page);
@@ -95,6 +95,27 @@ export class GroupComponent implements OnInit {
           this.publications.unshift(newPost);
         }
       });
+  }
+
+  joinToGroup() {
+    this.animations.globalProgressBarActive = true;
+    this.academicNetwork.addCurrentUserToGroup(this.groupId).subscribe(res => {
+      switch(res.code) {
+        case 0:
+          this.notifications.success('Te has unido', 'Ahora eres parte del grupo.');
+          this.setMembershipInfo(this.groupId);
+          this.animations.globalProgressBarActive = false;
+          break;
+        case 1:
+          this.notifications.info('Grupo no encontrado', 'Parece que el grupo no existe. ¿Entraste directo desde un enlace?');
+          break;
+        case 2:
+          this.notifications.info('Ya eras miembro', 'No es necesario unirte, ya eras parte del grupo.');
+          break;
+        default:
+          this.notifications.error('Error', res.messages.join(' | '));
+      }
+    });
   }
 
   openPreferences() {
